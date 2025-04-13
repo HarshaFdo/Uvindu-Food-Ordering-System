@@ -10,7 +10,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 class GoogleLoginAPIView(APIView):
     def post(self, request):
-        token = request.data.get("access_token")
+        token = request.data.get("token")
 
         try:
             idinfo = id_token.verify_oauth2_token(token, google_requests.Request())

@@ -1,14 +1,23 @@
 import React from "react";
 import { GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
+  const navigate = useNavigate();
+
   const handleLoginSuccess = async (credentialResponse) => {
     try {
-      const res = await axios.post("http://127.0.0.1:8001/api/auth/google/", {
+      const res = await axios.post("http://127.0.0.1:8000/api/auth/google/", {
         token: credentialResponse.credential,
       });
-      console.log("User logged in:", res.data.user); // Contains name, email
+      
+      navigate("/user", { state: { user: res.data.user } });
+
+      localStorage.setItem("accessToken", res.data.access);
+      localStorage.setItem("refreshToken", res.data.refresh);
+
+
     } catch (err) {
       console.error("Login failed:", err.response?.data || err.message);
     }

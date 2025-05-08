@@ -1,12 +1,12 @@
 import React from 'react';
 import {
-  Table, TableHead, TableRow, TableCell, TableBody, IconButton, Switch
+  Table, TableHead, TableRow, TableCell, TableBody, IconButton, Switch, Button
 } from '@mui/material';
 import { Edit, Delete } from '@mui/icons-material';
 // import { useEffect, useState } from 'react';
 // import axios from 'axios';
 
-const MealTable = ({ meals, onEdit, onDelete }) => {
+const MealTable = ({ meals, onEdit, onDelete, onToggleAvailability }) => {
   return (
     <Table>
       <TableHead>
@@ -31,9 +31,23 @@ const MealTable = ({ meals, onEdit, onDelete }) => {
               <TableCell>{meal.name}</TableCell>
               <TableCell>{meal.half_price}</TableCell>
               <TableCell>{meal.full_price}</TableCell>
+              {/* <TableCell>
+                <Button
+                  variant="contained"
+                  color={meal.availability ? 'success' : 'error'}
+                  onClick={() => onToggleAvailability(meal)}
+                >
+                  {meal.availability ? 'Available' : 'Unavailable'}
+                </Button>
+              </TableCell> */}
               <TableCell>
-                <Switch checked={meal.availability} disabled />
+                <Switch
+                  checked={meal.availability}
+                  onChange={() => onToggleAvailability(meal)}
+                  color="primary"
+                />
               </TableCell>
+
               <TableCell>
                 <IconButton onClick={() => onEdit(meal)}><Edit /></IconButton>
                 <IconButton onClick={() => onDelete(meal.id)}><Delete /></IconButton>

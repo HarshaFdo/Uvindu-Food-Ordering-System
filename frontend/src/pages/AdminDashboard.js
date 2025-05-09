@@ -73,9 +73,30 @@ const AdminDashboard = () => {
     };
   
     const handleDelete = async (id) => {
-      await axios.delete(`http://localhost:8000/api/meals/${id}/`);
-      fetchMeals();
-    };
+        const confirmDelete = window.confirm("Are you sure you want to delete this meal?");
+        if (confirmDelete) {
+          try {
+            await axios.delete(`http://localhost:8000/api/meals/${id}/`);
+            fetchMeals();
+          } catch (error) {
+            console.error('Failed to delete meal:', error);
+            alert('Delete failed. Please try again.');
+          }
+        }
+      };
+      
+
+    const handleToggleAvailability = async (meal) => {
+        try {
+          await axios.patch(`http://localhost:8000/api/meals/${meal.id}/`, {
+            availability: !meal.availability,
+          });
+          fetchMeals();  // Refresh the list
+        } catch (error) {
+          console.error('Failed to toggle availability:', error);
+        }
+      };
+      
   
     return (
       <Container sx={{ marginTop: 10 }}>
@@ -84,7 +105,14 @@ const AdminDashboard = () => {
         <Button variant="contained" onClick={handleAddClick} sx={{ mb: 2 }}>
           Add Meal
         </Button>
-        <MealTable meals={meals} onEdit={handleEdit} onDelete={handleDelete} />
+        {/* <MealTable meals={meals} onEdit={handleEdit} onDelete={handleDelete} /> */}
+        <MealTable
+            meals={meals}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+            onToggleAvailability={handleToggleAvailability}
+        />
+
         <MealForm
           open={open}
           handleClose={() => setOpen(false)}

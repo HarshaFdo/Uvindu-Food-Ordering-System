@@ -12,7 +12,7 @@ function UserPage() {
   };
 
   if (!user) {
-    navigate("/"); // Redirect to login if no user data
+    navigate("/");
     return null;
   }
 

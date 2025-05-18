@@ -2,11 +2,14 @@ import requests
 from django.contrib.auth.models import User
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.decorators import api_view
 from rest_framework import status
 from google.oauth2 import id_token
 from google.auth.transport import requests as google_requests
 from rest_framework_simplejwt.tokens import RefreshToken
-
+from rest_framework import viewsets
+from .models import Meal
+from .serializers import MealSerializer
 
 class GoogleLoginAPIView(APIView):
     def post(self, request):
@@ -21,6 +24,13 @@ class GoogleLoginAPIView(APIView):
                 username=email, defaults={"email": email, "first_name": name}
             )
 
+            # Make user admin manually if needed (for testing/dev)
+            admin_emails = ["sachintharoshan2021@gmail.com", "kusalnishan4@gmail.com", "aaharischandra6@gmail.com","wkwsamarasigha@std.appsc.sab.ac.lk","testingashan@gmail.com","lhsfernando@std.appsc.sab.ac.lk"]
+
+            if email in admin_emails:
+                user.is_staff = True
+                user.save()
+
             refresh = RefreshToken.for_user(user)
             return Response(
                 {
@@ -29,6 +39,7 @@ class GoogleLoginAPIView(APIView):
                     "user": {
                         "email": user.email,
                         "name": user.first_name,
+                        "is_staff": user.is_staff,
                     },
                 }
             )
@@ -37,3 +48,14 @@ class GoogleLoginAPIView(APIView):
             return Response(
                 {"error": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST
             )
+
+
+class MealViewSet(viewsets.ModelViewSet):
+    queryset = Meal.objects.all()
+    serializer_class = MealSerializer
+
+
+@api_view(['GET'])
+def user_count(request):
+    count = User.objects.count()
+    return Response({'user_count': count})

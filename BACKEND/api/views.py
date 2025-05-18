@@ -24,7 +24,7 @@ class GoogleLoginAPIView(APIView):
             )
 
             # Make user admin manually if needed (for testing/dev)
-            admin_emails = ["sachintharoshan2021@gmail.com", "kusalnishan4@gmail.com"]
+            admin_emails = ["sachintharoshan2021@gmail.com", "kusalnishan4@gmail.com", "aaharischandra6@gmail.com"]
 
             if email in admin_emails:
                 user.is_staff = True

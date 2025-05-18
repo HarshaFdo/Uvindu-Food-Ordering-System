@@ -2,6 +2,7 @@ import requests
 from django.contrib.auth.models import User
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.decorators import api_view
 from rest_framework import status
 from google.oauth2 import id_token
 from google.auth.transport import requests as google_requests
@@ -52,3 +53,9 @@ class GoogleLoginAPIView(APIView):
 class MealViewSet(viewsets.ModelViewSet):
     queryset = Meal.objects.all()
     serializer_class = MealSerializer
+
+
+@api_view(['GET'])
+def user_count(request):
+    count = User.objects.count()
+    return Response({'user_count': count})

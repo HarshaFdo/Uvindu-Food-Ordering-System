@@ -10,7 +10,7 @@ import MealManagement from './pages/admin/MealManagement';
 import Orders from './pages/admin/Orders';
 
 
-import AdminDashboard from './pages/AdminDashboard';
+//import AdminDashboard from './pages/AdminDashboard';
 
 
 function App() {
@@ -27,7 +27,7 @@ function App() {
         <Route path="/admin/orders" element={<Orders />} />
 
 
-        <Route path="/admin" element={<AdminDashboard />}/>
+        {/* <Route path="/admin" element={<AdminDashboard />}/> */}
 
       </Routes>
     </BrowserRouter>

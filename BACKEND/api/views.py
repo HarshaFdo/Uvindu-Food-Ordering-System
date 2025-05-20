@@ -25,6 +25,7 @@ class GoogleLoginAPIView(APIView):
             )
 
             # Make user admin manually if needed (for testing/dev)
+
             admin_emails = ["sachintharoshan2021@gmail.com", "kusalnishan4@gmail.com", "aaharischandra6@gmail.com","wkwsamarasigha@std.appsc.sab.ac.lk","testingashan@gmail.com","lhsfernando@std.appsc.sab.ac.lk"]
 
             if email in admin_emails:
@@ -54,6 +55,14 @@ class MealViewSet(viewsets.ModelViewSet):
     queryset = Meal.objects.all()
     serializer_class = MealSerializer
 
+
+class MealListAPIView(APIView):
+    # permission_classes = [IsAuthenticatedOrReadOnly]  # Optional: only logged users
+
+    def get(self, request):
+        meals = Meal.objects.filter(availability=True)
+        serializer = MealSerializer(meals, many=True)
+        return Response(serializer.data)
 
 @api_view(['GET'])
 def user_count(request):

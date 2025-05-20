@@ -34,7 +34,6 @@ function UserPage() {
     localStorage.removeItem("accessToken");
     navigate("/");
   };
-
   // If no user info, show nothing while redirecting
   if (!user) return null;
 

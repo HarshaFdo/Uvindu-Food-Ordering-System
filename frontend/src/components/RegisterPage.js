@@ -13,10 +13,18 @@ function RegisterPage() {
           token: credentialResponse.credential,
         });
         
-        navigate("/user", { state: { user: res.data.user } });
+        const user = res.data.user;
   
         localStorage.setItem("accessToken", res.data.access);
         localStorage.setItem("refreshToken", res.data.refresh);
+
+        //  Redirect based on role
+        if (user.is_staff) {
+          navigate("/admin", { state: { user } });
+        } else {
+          navigate("/user", { state: { user } });
+        }
+
   
   
       } catch (err) {

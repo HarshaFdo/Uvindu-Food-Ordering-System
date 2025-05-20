@@ -18,24 +18,13 @@ function RegisterPage() {
         localStorage.setItem("accessToken", res.data.access);
         localStorage.setItem("refreshToken", res.data.refresh);
 
-<<<<<<< HEAD
-        //  Redirect based on role
-=======
-
-        //  Redirect based on role
-
->>>>>>> 16e821d82ea54f81b6b09aa4378f29a65e816203
         if (user.is_staff) {
           navigate("/admin", { state: { user } });
         } else {
           navigate("/user", { state: { user } });
         }
 
-<<<<<<< HEAD
-  
-=======
->>>>>>> 16e821d82ea54f81b6b09aa4378f29a65e816203
-  
+
       } catch (err) {
         console.error("Login failed:", err.response?.data || err.message);
       }

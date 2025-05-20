@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import {
   Dialog, DialogTitle, DialogContent, DialogActions,
-  Button, TextField, Checkbox, FormControlLabel
+  Button, TextField, Checkbox, FormControlLabel, Typography 
 } from '@mui/material';
+
 
 const MealForm = ({ open, handleClose, onSubmit, initialData }) => {
   const [meal, setMeal] = useState({
@@ -57,17 +58,22 @@ const MealForm = ({ open, handleClose, onSubmit, initialData }) => {
     <Dialog
       open={open}
       onClose={handleClose}
-      key={initialData ? initialData.id : 'new'} // this helps reset the dialog
+      key={initialData ? initialData.id : 'new'}
+      fullWidth
+      maxWidth="sm"
     >
-      <DialogTitle>{initialData ? 'Edit Meal' : 'Add Meal'}</DialogTitle>
-      <DialogContent>
+      <DialogTitle sx={{ fontWeight: 'bold', fontSize: '1.5rem', pb: 1 }}>
+        {initialData ? 'Edit Meal' : 'Add Meal'}
+      </DialogTitle>
+
+      <DialogContent dividers sx={{ px: 3, py: 2 }}>
         <TextField
           label="Meal Name"
           name="name"
           value={meal.name}
           onChange={handleChange}
           fullWidth
-          margin="dense"
+          margin="normal"
         />
         <TextField
           label="Half Price"
@@ -76,7 +82,7 @@ const MealForm = ({ open, handleClose, onSubmit, initialData }) => {
           value={meal.halfPrice}
           onChange={handleChange}
           fullWidth
-          margin="dense"
+          margin="normal"
         />
         <TextField
           label="Full Price"
@@ -85,19 +91,32 @@ const MealForm = ({ open, handleClose, onSubmit, initialData }) => {
           value={meal.fullPrice}
           onChange={handleChange}
           fullWidth
-          margin="dense"
+          margin="normal"
         />
+
         <FormControlLabel
           control={
             <Checkbox
               checked={meal.availability}
               onChange={handleCheckboxChange}
               name="availability"
+              color="primary"
             />
           }
           label="Available"
+          sx={{ mt: 1 }}
         />
-        <Button variant="outlined" component="label" sx={{ mt: 2 }}>
+
+        <Button
+          variant="outlined"
+          component="label"
+          sx={{
+            mt: 3,
+            borderRadius: 2,
+            textTransform: 'none',
+            fontWeight: 'bold',
+          }}
+        >
           Upload Image
           <input
             type="file"
@@ -106,17 +125,24 @@ const MealForm = ({ open, handleClose, onSubmit, initialData }) => {
             onChange={handleImageChange}
           />
         </Button>
+
         {meal.image && (
-          <p style={{ marginTop: '10px' }}>{meal.image.name}</p>
+          <Typography variant="body2" sx={{ mt: 1, ml: 1, color: 'text.secondary' }}>
+            {meal.image.name}
+          </Typography>
         )}
       </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={handleSubmit}>
+
+      <DialogActions sx={{ px: 3, py: 2 }}>
+        <Button onClick={handleClose} color="error" variant="outlined" sx={{ borderRadius: 2 }}>
+          Cancel
+        </Button>
+        <Button onClick={handleSubmit} variant="contained" sx={{ borderRadius: 2 }}>
           {initialData ? 'Update' : 'Add'}
         </Button>
       </DialogActions>
     </Dialog>
+
   );
 };
 

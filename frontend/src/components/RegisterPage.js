@@ -23,8 +23,8 @@ function RegisterPage() {
         } else {
           navigate("/user", { state: { user } });
         }
-  
-  
+
+
       } catch (err) {
         console.error("Login failed:", err.response?.data || err.message);
       }

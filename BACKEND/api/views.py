@@ -2,6 +2,7 @@ import requests
 from django.contrib.auth.models import User
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.decorators import api_view
 from rest_framework import status
 from google.oauth2 import id_token
 from google.auth.transport import requests as google_requests
@@ -24,7 +25,8 @@ class GoogleLoginAPIView(APIView):
             )
 
             # Make user admin manually if needed (for testing/dev)
-            admin_emails = ["sachintharoshan2021@gmail.com", "kusalnishan4@gmail.com", "aaharischandra6@gmail.com","wkwsamarasigha@std.appsc.sab.ac.lk","testingashan@gmail.com","lhsfernando@std.appsc.sab.ac.lk"]
+
+            admin_emails = ["sachintharoshan2021@gmail.com", "kusalnishan4@gmail.com", "aaharischandra6@gmail.com","wkwsamarasingha@std.appsc.sab.ac.lk","testingashan@gmail.com","lhsfernando@std.appsc.sab.ac.lk"]
 
             if email in admin_emails:
                 user.is_staff = True
@@ -52,3 +54,17 @@ class GoogleLoginAPIView(APIView):
 class MealViewSet(viewsets.ModelViewSet):
     queryset = Meal.objects.all()
     serializer_class = MealSerializer
+
+
+class MealListAPIView(APIView):
+    # permission_classes = [IsAuthenticatedOrReadOnly]  # Optional: only logged users
+
+    def get(self, request):
+        meals = Meal.objects.filter(availability=True)
+        serializer = MealSerializer(meals, many=True)
+        return Response(serializer.data)
+
+@api_view(['GET'])
+def user_count(request):
+    count = User.objects.count()
+    return Response({'user_count': count})

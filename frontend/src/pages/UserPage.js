@@ -47,6 +47,12 @@ function UserPage() {
 
       <hr style={{ margin: "2rem 0" }} />
 
+          <button onClick={() => navigate("/tracking")}>
+      Track Your Order
+    </button>
+
+      
+
       <h2>Available Meals 🍽️</h2>
       {meals.length === 0 ? (
         <p>No meals available.</p>

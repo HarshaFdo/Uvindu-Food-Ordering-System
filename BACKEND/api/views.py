@@ -10,6 +10,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import viewsets
 from .models import Meal
 from .serializers import MealSerializer
+from .models import AdditionalMeal
+from .serializers import AdditionalMealSerializer
 
 class GoogleLoginAPIView(APIView):
     def post(self, request):
@@ -54,6 +56,10 @@ class GoogleLoginAPIView(APIView):
 class MealViewSet(viewsets.ModelViewSet):
     queryset = Meal.objects.all()
     serializer_class = MealSerializer
+
+class AdditionalMealViewSet(viewsets.ModelViewSet):
+    queryset = AdditionalMeal.objects.all()
+    serializer_class = AdditionalMealSerializer
 
 
 class MealListAPIView(APIView):

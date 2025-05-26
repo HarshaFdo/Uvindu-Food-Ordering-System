@@ -7,6 +7,8 @@ from .views import (
     AdditionalMealViewSet,
     MealListAPIView,   # optional filtered list
     user_count,        # user-count endpoint
+    set_order_time_status,
+    get_order_time_status,
 )
 
 # ────────────────────────────────────────────────
@@ -31,4 +33,8 @@ urlpatterns = [
     # Extra bespoke endpoints
     path("meals/available/", MealListAPIView.as_view(), name="available-meal-list"),
     path("user-count/", user_count, name="user-count"),
+
+    path("set-order-time-status/", set_order_time_status, name="set-order-time-status"),
+    path("get-order-time-status/", get_order_time_status, name="get-order-time-status"),
+
 ]

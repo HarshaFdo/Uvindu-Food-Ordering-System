@@ -12,6 +12,7 @@ from .models import Meal
 from .serializers import MealSerializer
 from .models import AdditionalMeal
 from .serializers import AdditionalMealSerializer
+from .models import OrderingStatus
 
 class GoogleLoginAPIView(APIView):
     def post(self, request):
@@ -61,7 +62,6 @@ class AdditionalMealViewSet(viewsets.ModelViewSet):
     queryset = AdditionalMeal.objects.all()
     serializer_class = AdditionalMealSerializer
 
-
 class MealListAPIView(APIView):
     # permission_classes = [IsAuthenticatedOrReadOnly]  # Optional: only logged users
 
@@ -69,6 +69,22 @@ class MealListAPIView(APIView):
         meals = Meal.objects.filter(availability=True)
         serializer = MealSerializer(meals, many=True)
         return Response(serializer.data)
+
+@api_view(['POST'])
+def set_order_time_status(request):
+    status = request.data.get('status', False)
+
+    # Get or create single row
+    status_obj, created = OrderingStatus.objects.get_or_create(id=1)
+    status_obj.is_ordering_enabled = status
+    status_obj.save()
+
+    return Response({'success': True, 'status': status})
+
+@api_view(['GET'])
+def get_order_time_status(request):
+    status_obj, created = OrderingStatus.objects.get_or_create(id=1)
+    return Response({'status': status_obj.is_ordering_enabled})
 
 @api_view(['GET'])
 def user_count(request):

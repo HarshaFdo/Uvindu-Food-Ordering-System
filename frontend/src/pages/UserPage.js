@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+import ActiveOrder from "../components/ActiveOrder";
 
 function UserPage() {
   const navigate = useNavigate();
@@ -147,6 +148,9 @@ function UserPage() {
           >
             Track Your Order
           </button>
+
+             {/* ActiveOrder component */}
+          <ActiveOrder />
         </div>
 
         {/* Meals Section */}

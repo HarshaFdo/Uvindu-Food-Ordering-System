@@ -174,6 +174,12 @@ const AdminLayout = ({ children }) => {
     return currentItem ? currentItem.label : 'Dashboard';
   };
 
+  const handleLogout = () => {
+    // e.g., remove token from localStorage
+    localStorage.removeItem('token');
+    navigate('/');
+  };
+
   const drawer = (
     <Box>
       <Toolbar>
@@ -326,7 +332,10 @@ const AdminLayout = ({ children }) => {
           Settings
         </MenuItem>
         <Divider /> */}
-        <MenuItem onClick={handleMenuClose}>
+
+        
+
+        <MenuItem onClick={handleLogout}>
           <ListItemIcon><Logout /></ListItemIcon>
           Logout
         </MenuItem>

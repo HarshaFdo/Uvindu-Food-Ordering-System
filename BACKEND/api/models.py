@@ -20,6 +20,14 @@ class AdditionalMeal(models.Model):
     def __str__(self):
         return self.name
 
+from django.db import models
+
+class OrderingStatus(models.Model):
+    is_ordering_enabled = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Ordering Enabled: {self.is_ordering_enabled}"
+
 
 
 class Order(models.Model):

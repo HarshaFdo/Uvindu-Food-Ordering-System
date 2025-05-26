@@ -7,7 +7,12 @@ from .views import (
     AdditionalMealViewSet,
     MealListAPIView,   # optional filtered list
     user_count,        # user-count endpoint
+<<<<<<< HEAD
     ActiveOrderAPIView,
+=======
+    set_order_time_status,
+    get_order_time_status,
+>>>>>>> 7eadf81d (Add logout option, ordering time switch and some styles to admin panel)
 )
 
 # ────────────────────────────────────────────────
@@ -33,6 +38,12 @@ urlpatterns = [
     path("meals/available/", MealListAPIView.as_view(), name="available-meal-list"),
     path("user-count/", user_count, name="user-count"),
 
+
     # Active Order
     path('api/active-orders/', ActiveOrderAPIView.as_view(), name='active-orders'),
+
+    path("set-order-time-status/", set_order_time_status, name="set-order-time-status"),
+    path("get-order-time-status/", get_order_time_status, name="get-order-time-status"),
+
+
 ]

@@ -12,6 +12,7 @@ import MealManagement from './pages/admin/MealManagement';
 import AdditionalMealManagement from './pages/admin/AdditionalMealManagement';
 import Orders from './pages/admin/Orders';
 import TrackingMap from './pages/TrackingMap';
+import PlaceOrderPage from './pages/PlaceOrderPage';
 
 
 
@@ -31,6 +32,8 @@ function App() {
         <Route path="/admin/additionalmeals" element={<AdditionalMealManagement />} />
         <Route path="/admin/orders" element={<Orders />} />
         <Route path="/tracking" element={<TrackingMap />} />
+
+        <Route path="/checkout" element={<PlaceOrderPage />} />
 
 
        

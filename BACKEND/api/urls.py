@@ -9,6 +9,11 @@ from .views import (
     MealListAPIView,   # optional filtered list
     user_count,        # user-count endpoint
     ActiveOrderAPIView,
+    set_order_time_status,
+    get_order_time_status,
+    set_order_time_status,
+    get_order_time_status,
+
 )
 
 # ────────────────────────────────────────────────
@@ -40,4 +45,11 @@ urlpatterns = [
     # Place Order
     # path('api/place-order/', PlaceOrderView.as_view()),
     path('place-order/', place_order),
+
+    path("set-order-time-status/", set_order_time_status, name="set-order-time-status"),
+    path("get-order-time-status/", get_order_time_status, name="get-order-time-status"),
+
+    path("set-order-time-status/", set_order_time_status, name="set-order-time-status"),
+    path("get-order-time-status/", get_order_time_status, name="get-order-time-status"),
+
 ]

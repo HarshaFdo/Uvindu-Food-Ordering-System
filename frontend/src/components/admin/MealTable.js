@@ -63,19 +63,32 @@ const MealTable = ({ meals = [], onEdit, onDelete, onToggleAvailability }) => {
     }
   };
 
+  const handleDelete = async (id) => {
+  try {
+    const res = await fetch(`/api/meals/${id}/`, {
+      method: 'DELETE',
+    });
+    if (!res.ok) throw new Error('Failed to delete');
+    // Refresh or remove meal from local state
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+
   return (
     <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
       {/* Header with search and filters */}
-      {/* <div className="p-6 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-100">
+      <div className="p-6 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-100">
         <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
           <div>
             <h2 className="text-2xl font-bold text-gray-800 mb-1">Meal Management</h2>
             <p className="text-gray-600">{filteredMeals.length} meals found</p>
           </div>
           
-          <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto"> */}
+          <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
             {/* Search */}
-            {/* <div className="relative">
+            <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
               <input
                 type="text"
@@ -84,10 +97,10 @@ const MealTable = ({ meals = [], onEdit, onDelete, onToggleAvailability }) => {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-200 w-full sm:w-64"
               />
-            </div> */}
+            </div>
             
             {/* Filter */}
-            {/* <div className="relative">
+            <div className="relative">
               <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
               <select
                 value={filterAvailable}
@@ -101,7 +114,7 @@ const MealTable = ({ meals = [], onEdit, onDelete, onToggleAvailability }) => {
             </div>
           </div>
         </div>
-      </div> */}
+      </div>
 
       {/* Table */}
       <div className="overflow-x-auto">
@@ -207,7 +220,9 @@ const MealTable = ({ meals = [], onEdit, onDelete, onToggleAvailability }) => {
                       </button>
                       
                       <button
-                        onClick={() => onDelete && onDelete(meal.id)}
+                        onClick={() => { 
+                          console.log("Meal to delete:", meal);
+                          onDelete && onDelete(meal);}}
                         className="inline-flex items-center justify-center w-8 h-8 rounded-lg text-red-600 hover:bg-red-50 hover:text-red-700 transition-all duration-200 group/btn"
                         title="Delete meal"
                       >

@@ -81,16 +81,22 @@ class ActiveOrderAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        user = request.user
-        # Fetch the active order for this user
-        active_order = Order.objects.filter(user=user, status='active').first()
-        if not active_order:
-            return Response({"detail": "No active order found."}, status=404)
+        try:
+            order = Order.objects.get(user=request.user, status='active')
+        except Order.DoesNotExist:
+            return Response({"detail": "No active order found"}, status=404)
+        
+        serializer = OrderSerializer(order)
+        return Response(serializer.data)
 
-        data = {
-            "order_number": active_order.order_number,
-            "order": active_order.description,  # or whatever field contains order details
-            "eta": active_order.eta,
-            "status": active_order.status,
-        }
-        return Response(data)
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
+def place_order(request):
+    if request.method == "POST":
+        # Your logic here to handle the order
+        return JsonResponse({"message": "Order placed successfully"})
+    else:
+        return JsonResponse({"error": "Invalid HTTP method"}, status=405)

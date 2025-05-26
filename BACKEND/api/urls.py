@@ -1,6 +1,7 @@
 # api/urls.py  ― put this inside the *api* Django app
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
+from .views import place_order
 from .views import (
     GoogleLoginAPIView,
     MealViewSet,
@@ -35,4 +36,8 @@ urlpatterns = [
 
     # Active Order
     path('api/active-orders/', ActiveOrderAPIView.as_view(), name='active-orders'),
+
+    # Place Order
+    # path('api/place-order/', PlaceOrderView.as_view()),
+    path('place-order/', place_order),
 ]

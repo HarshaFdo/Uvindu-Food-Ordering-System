@@ -30,6 +30,7 @@ class OrderingStatus(models.Model):
 
 
 
+
 class Order(models.Model):
     STATUS_CHOICES = [
         ('pending', 'Pending'),
@@ -47,6 +48,7 @@ class Order(models.Model):
 
     def __str__(self):
         return f"#{self.order_number} - {self.status}"
+
 
 
 

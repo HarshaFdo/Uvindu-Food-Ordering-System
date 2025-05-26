@@ -12,6 +12,7 @@ from .models import Meal
 from .serializers import MealSerializer
 from .models import AdditionalMeal
 from .serializers import AdditionalMealSerializer
+from .models import OrderingStatus
 
 from rest_framework.permissions import IsAuthenticated
 

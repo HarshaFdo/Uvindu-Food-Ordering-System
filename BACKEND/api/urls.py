@@ -7,6 +7,7 @@ from .views import (
     AdditionalMealViewSet,
     MealListAPIView,   # optional filtered list
     user_count,        # user-count endpoint
+    ActiveOrderAPIView,
 )
 
 # ────────────────────────────────────────────────
@@ -31,4 +32,7 @@ urlpatterns = [
     # Extra bespoke endpoints
     path("meals/available/", MealListAPIView.as_view(), name="available-meal-list"),
     path("user-count/", user_count, name="user-count"),
+
+    # Active Order
+    path('api/active-orders/', ActiveOrderAPIView.as_view(), name='active-orders'),
 ]

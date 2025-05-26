@@ -12,6 +12,7 @@ from .models import Meal
 from .serializers import MealSerializer
 from .models import AdditionalMeal
 from .serializers import AdditionalMealSerializer
+from rest_framework.permissions import IsAuthenticated
 
 class GoogleLoginAPIView(APIView):
     def post(self, request):
@@ -74,3 +75,22 @@ class MealListAPIView(APIView):
 def user_count(request):
     count = User.objects.count()
     return Response({'user_count': count})
+
+
+class ActiveOrderAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        # Fetch the active order for this user
+        active_order = Order.objects.filter(user=user, status='active').first()
+        if not active_order:
+            return Response({"detail": "No active order found."}, status=404)
+
+        data = {
+            "order_number": active_order.order_number,
+            "order": active_order.description,  # or whatever field contains order details
+            "eta": active_order.eta,
+            "status": active_order.status,
+        }
+        return Response(data)

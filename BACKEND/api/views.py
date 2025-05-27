@@ -7,21 +7,20 @@ from rest_framework import status
 from google.oauth2 import id_token
 from google.auth.transport import requests as google_requests
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework import viewsets
-from .models import Meal
+from rest_framework import viewsets, permissions
+from .models import Meal, Order
 from .serializers import MealSerializer
-from .models import AdditionalMeal
-from .serializers import AdditionalMealSerializer
+from .models import AdditionalMeal, Notification, Advertisement
+from .serializers import AdditionalMealSerializer, NotificationSerializer, AdvertisementSerializer
 from .models import OrderingStatus
-
 from rest_framework.permissions import IsAuthenticated
-
 from .models import OrderingStatus
 
 
 class GoogleLoginAPIView(APIView):
     def post(self, request):
         token = request.data.get("token")
+        print(token)
 
         try:
             idinfo = id_token.verify_oauth2_token(token, google_requests.Request())
@@ -114,3 +113,22 @@ class ActiveOrderAPIView(APIView):
             "status": active_order.status,
         }
         return Response(data)
+    
+
+class NotificationViewSet(viewsets.ModelViewSet):
+    queryset = Notification.objects.all().order_by('-created_at')
+    serializer_class = NotificationSerializer
+
+    def get_permissions(self):
+        if self.request.method in ['POST', 'PUT', 'PATCH', 'DELETE']:
+            return [permissions.IsAdminUser()]
+        return [permissions.AllowAny()]
+
+class AdvertisementViewSet(viewsets.ModelViewSet):
+    queryset = Advertisement.objects.filter(is_active=True).order_by('-created_at')
+    serializer_class = AdvertisementSerializer
+
+    def get_permissions(self):
+        if self.request.method in ['POST', 'PUT', 'PATCH', 'DELETE']:
+            return [permissions.IsAdminUser()]
+        return [permissions.AllowAny()]

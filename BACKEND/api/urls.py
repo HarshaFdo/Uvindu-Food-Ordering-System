@@ -7,8 +7,8 @@ from .views import (
     AdditionalMealViewSet,
     MealListAPIView,   # optional filtered list
     user_count,        # user-count endpoint
-
-
+    NotificationViewSet, 
+    AdvertisementViewSet,
     ActiveOrderAPIView,
 
     set_order_time_status,
@@ -26,6 +26,8 @@ from .views import (
 router = DefaultRouter()
 router.register(r"meals", MealViewSet, basename="meal")
 router.register(r"additional-meals", AdditionalMealViewSet, basename="additionalmeal")
+router.register(r'notifications', NotificationViewSet, basename='notification')
+router.register(r'advertisements', AdvertisementViewSet, basename='advertisement')
 
 # ────────────────────────────────────────────────
 # 2.  URL patterns for this *api* app

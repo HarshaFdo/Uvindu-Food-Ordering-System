@@ -30,7 +30,6 @@ class OrderingStatus(models.Model):
 
 
 
-
 class Order(models.Model):
     STATUS_CHOICES = [
         ('pending', 'Pending'),
@@ -48,6 +47,27 @@ class Order(models.Model):
 
     def __str__(self):
         return f"#{self.order_number} - {self.status}"
+    
+class Notification(models.Model):
+    title = models.CharField(max_length=255)
+    content = models.TextField()
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
+
+class Advertisement(models.Model):
+    title = models.CharField(max_length=255)
+    image = models.ImageField(upload_to='ads/')
+    link = models.URLField(blank=True, null=True)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
 
 
 

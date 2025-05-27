@@ -13,6 +13,8 @@ import AdditionalMealManagement from './pages/admin/AdditionalMealManagement';
 import Orders from './pages/admin/Orders';
 import TrackingMap from './pages/TrackingMap';
 import PlaceOrderPage from './pages/PlaceOrderPage';
+import NotificationManagement from './pages/admin/NotificationManagement';
+
 
 
 
@@ -34,6 +36,8 @@ function App() {
         <Route path="/tracking" element={<TrackingMap />} />
 
         <Route path="/checkout" element={<PlaceOrderPage />} />
+        <Route path="/admin/notifications" element={<NotificationManagement />} />
+
 
 
        

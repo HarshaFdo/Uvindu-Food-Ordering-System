@@ -35,7 +35,7 @@ class GoogleLoginAPIView(APIView):
 
             admin_emails = ["sachintharoshan2021@gmail.com", "kusalnishan4@gmail.com", "aaharischandra6@gmail.com","wkwsamarasingha@std.appsc.sab.ac.lk","testingashan@gmail.com","lhsfernando@std.appsc.sab.ac.lk"]
 
-            if email in admin_emails:
+            if email in admin_emails:   
                 user.is_staff = True
                 user.save()
 

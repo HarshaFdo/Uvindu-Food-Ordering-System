@@ -15,6 +15,7 @@ import Orders from './pages/admin/Orders';
 import TrackingMap from './pages/TrackingMap';
 import PlaceOrderPage from './pages/PlaceOrderPage';
 import NotificationManagement from './pages/admin/NotificationManagement';
+import AdvertisementManagement from './pages/admin/AdvertisementManagement';
 
 
 
@@ -49,6 +50,7 @@ function App() {
 
         <Route path="/checkout" element={<PlaceOrderPage />} />
         <Route path="/admin/notifications" element={<NotificationManagement />} />
+        <Route path="/admin/advertisements" element={<AdvertisementManagement />} />
 
 
 

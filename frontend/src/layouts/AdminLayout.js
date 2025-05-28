@@ -37,7 +37,7 @@ import {
   Dashboard
 } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Bell } from 'lucide-react';
+import { Bell, Speaker } from 'lucide-react';
 
 const drawerWidth = 280;
 
@@ -156,7 +156,8 @@ const AdminLayout = ({ children }) => {
     { id: 'meals', label: 'Meal Management', icon: Restaurant, path: '/admin/meals' },
     { id: 'additional', label: 'Additional Meals', icon: Add, path: '/admin/additionalmeals' },
     { id: 'orders', label: 'View Orders', icon: ShoppingCart, path: '/admin/orders' },
-    { id: 'notification', label: 'Notification', icon: Bell, path: '/admin/notifications' }
+    { id: 'notification', label: 'Notification', icon: Bell, path: '/admin/notifications' },
+    { id: 'advertisement', label: 'Advertisements', icon: Speaker, path: '/admin/advertisements' }
   ]
 
   const handleDrawerToggle = () => {

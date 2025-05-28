@@ -121,26 +121,18 @@ class NotificationViewSet(viewsets.ModelViewSet):
     serializer_class = NotificationSerializer
 
     def get_permissions(self):
-        if self.request.method in ['POST', 'PUT', 'PATCH', 'DELETE']:
-            return [permissions.IsAdminUser()]
-        return [permissions.AllowAny()]
+        if self.request.method in permissions.SAFE_METHODS:  
+            return [permissions.AllowAny()]
+        return [permissions.IsAdminUser()]
 
 class AdvertisementViewSet(viewsets.ModelViewSet):
     queryset = Advertisement.objects.filter(is_active=True).order_by('-created_at')
     serializer_class = AdvertisementSerializer
 
     def get_permissions(self):
-        if self.request.method in ['POST', 'PUT', 'PATCH', 'DELETE']:
-            return [permissions.IsAdminUser()]
-        return [permissions.AllowAny()]
-
-        try:
-            order = Order.objects.get(user=request.user, status='active')
-        except Order.DoesNotExist:
-            return Response({"detail": "No active order found"}, status=404)
-        
-        serializer = OrderSerializer(order)
-        return Response(serializer.data)
+        if self.request.method in permissions.SAFE_METHODS:
+            return [permissions.AllowAny()]
+        return [permissions.IsAdminUser()]
 
 
 from django.http import JsonResponse

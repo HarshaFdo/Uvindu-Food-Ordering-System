@@ -15,21 +15,7 @@ import Orders from './pages/admin/Orders';
 import TrackingMap from './pages/TrackingMap';
 import PlaceOrderPage from './pages/PlaceOrderPage';
 import NotificationManagement from './pages/admin/NotificationManagement';
-
-
-
-
-
-import UserPage from "./pages/UserPage";
-import HomePage from "./pages/HomePage";
-import RegisterPage from "./components/RegisterPage";
-import "leaflet/dist/leaflet.css";
-
-import AdminHome from "./pages/admin/AdminHome";
-import MealManagement from "./pages/admin/MealManagement";
-import AdditionalMealManagement from "./pages/admin/AdditionalMealManagement";
-import Orders from "./pages/admin/Orders";
-import TrackingMap from "./pages/TrackingMap";
+import AdvertisementManagement from './pages/admin/AdvertisementManagement';
 import PlaceOrderDetails from "./components/PlaceOrderDetail";
 
 function App() {
@@ -49,6 +35,7 @@ function App() {
 
         <Route path="/checkout" element={<PlaceOrderPage />} />
         <Route path="/admin/notifications" element={<NotificationManagement />} />
+        <Route path="/admin/advertisements" element={<AdvertisementManagement />} />
 
 
 

@@ -3,6 +3,11 @@ from .models import Meal, Notification, Advertisement, AdditionalMeal, Order
 
 
 
+from .models import Meal
+from .models import AdditionalMeal
+from .models import Order, PlaceOrder
+
+
 class MealSerializer(serializers.ModelSerializer):
     class Meta:
         model = Meal
@@ -17,6 +22,7 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = ['order_number', 'items', 'eta', 'status']
+
         
         
 class NotificationSerializer(serializers.ModelSerializer):
@@ -27,4 +33,10 @@ class NotificationSerializer(serializers.ModelSerializer):
 class AdvertisementSerializer(serializers.ModelSerializer):
     class Meta:
         model = Advertisement
+
+
+
+class PlaceOrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PlaceOrder
         fields = '__all__'

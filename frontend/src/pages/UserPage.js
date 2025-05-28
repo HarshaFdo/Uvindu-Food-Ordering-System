@@ -150,7 +150,7 @@ function UserPage() {
           </button>
 
              {/* ActiveOrder component */}
-          <ActiveOrder />
+          <ActiveOrder order={user}/>
         </div>
 
         {/* Meals Section */}
@@ -329,7 +329,7 @@ function UserPage() {
               <span>${calculateTotal().toFixed(2)}</span>
             </h3>
             <button
-              onClick={() => navigate("/checkout", { state: { cart } })}
+              onClick={() => navigate("/place-order", { state: { cart } })}
               style={{
                 width: "100%",
                 padding: "0.75rem",

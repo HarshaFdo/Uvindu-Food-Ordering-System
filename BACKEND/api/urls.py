@@ -1,20 +1,20 @@
 # api/urls.py  ― put this inside the *api* Django app
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
+from .views import place_order
 from .views import (
     GoogleLoginAPIView,
     MealViewSet,
     AdditionalMealViewSet,
     MealListAPIView,   # optional filtered list
     user_count,        # user-count endpoint
+
     NotificationViewSet, 
     AdvertisementViewSet,
-    ActiveOrderAPIView,
 
+    ActiveOrderAPIView,
     set_order_time_status,
     get_order_time_status,
-
-
     set_order_time_status,
     get_order_time_status,
 
@@ -45,18 +45,17 @@ urlpatterns = [
     path("meals/available/", MealListAPIView.as_view(), name="available-meal-list"),
     path("user-count/", user_count, name="user-count"),
 
-
-
     # Active Order
     path('api/active-orders/', ActiveOrderAPIView.as_view(), name='active-orders'),
 
+    # Place Order
+    # path('api/place-order/', PlaceOrderView.as_view()),
+    path('place-order/', place_order),
+
     path("set-order-time-status/", set_order_time_status, name="set-order-time-status"),
     path("get-order-time-status/", get_order_time_status, name="get-order-time-status"),
 
-
-
     path("set-order-time-status/", set_order_time_status, name="set-order-time-status"),
     path("get-order-time-status/", get_order_time_status, name="get-order-time-status"),
-
 
 ]

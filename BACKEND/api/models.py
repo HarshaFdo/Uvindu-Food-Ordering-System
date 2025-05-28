@@ -69,6 +69,13 @@ class Advertisement(models.Model):
     def __str__(self):
         return self.title
 
+class PlaceOrder(models.Model):
+    name = models.CharField(max_length=100)
+    phone = models.CharField(max_length=15)
+    hostel = models.CharField(max_length=100)
+    room = models.CharField(max_length=10)
+    created_at = models.DateTimeField(auto_now_add=True)
+
 
 
 

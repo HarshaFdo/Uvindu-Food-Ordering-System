@@ -33,8 +33,7 @@ class NotificationSerializer(serializers.ModelSerializer):
 class AdvertisementSerializer(serializers.ModelSerializer):
     class Meta:
         model = Advertisement
-
-
+        fields = '__all__'
 
 class PlaceOrderSerializer(serializers.ModelSerializer):
     class Meta:

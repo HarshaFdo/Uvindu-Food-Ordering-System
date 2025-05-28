@@ -70,7 +70,6 @@ class Advertisement(models.Model):
 
     def __str__(self):
         return self.title
-<<<<<<< HEAD
 
 class PlaceOrder(models.Model):
     name = models.CharField(max_length=100)
@@ -78,9 +77,3 @@ class PlaceOrder(models.Model):
     hostel = models.CharField(max_length=100)
     room = models.CharField(max_length=10)
     created_at = models.DateTimeField(auto_now_add=True)
-
-
-
-
-=======
->>>>>>> f00fb542 (Updated Views.py to get notification and advertisements)

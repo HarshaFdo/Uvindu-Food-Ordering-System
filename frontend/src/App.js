@@ -16,7 +16,6 @@ import TrackingMap from './pages/TrackingMap';
 import PlaceOrderPage from './pages/PlaceOrderPage';
 import NotificationManagement from './pages/admin/NotificationManagement';
 import AdvertisementManagement from './pages/admin/AdvertisementManagement';
-import PlaceOrderDetails from "./components/PlaceOrderDetail";
 import PlaceOrder from './components/PlaceOrder';
 
 function App() {
@@ -37,10 +36,6 @@ function App() {
         <Route path="/checkout" element={<PlaceOrderPage />} />
         <Route path="/admin/notifications" element={<NotificationManagement />} />
         <Route path="/admin/advertisements" element={<AdvertisementManagement />} />
-
-
-
-       
 
         <Route path="/place-order" element={<PlaceOrder />} />
 

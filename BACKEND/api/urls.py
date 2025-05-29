@@ -8,15 +8,14 @@ from .views import (
     AdditionalMealViewSet,
     MealListAPIView,   # optional filtered list
     user_count,        # user-count endpoint
-
     NotificationViewSet, 
     AdvertisementViewSet,
-
+    set_order_time_status,
+    get_order_time_status,
+    set_order_time_status,
+    get_order_time_status,
+    OrderViewSet,
     ActiveOrderAPIView,
-    set_order_time_status,
-    get_order_time_status,
-    set_order_time_status,
-    get_order_time_status,
 
 )
 
@@ -28,6 +27,7 @@ router.register(r"meals", MealViewSet, basename="meal")
 router.register(r"additional-meals", AdditionalMealViewSet, basename="additionalmeal")
 router.register(r'notifications', NotificationViewSet, basename='notification')
 router.register(r'advertisements', AdvertisementViewSet, basename='advertisement')
+router.register(r'orders', OrderViewSet)
 
 # ────────────────────────────────────────────────
 # 2.  URL patterns for this *api* app
@@ -57,5 +57,7 @@ urlpatterns = [
 
     path("set-order-time-status/", set_order_time_status, name="set-order-time-status"),
     path("get-order-time-status/", get_order_time_status, name="get-order-time-status"),
+
+    path('api/', include(router.urls)),
 
 ]

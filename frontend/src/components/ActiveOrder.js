@@ -9,7 +9,7 @@ const ActiveOrder = () => {
     const token = localStorage.getItem("accessToken");
 
     axios
-      .get("http://127.0.0.1:8000/api/active-order/", {
+      .get("http://127.0.0.1:8000/api/active-orders/", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

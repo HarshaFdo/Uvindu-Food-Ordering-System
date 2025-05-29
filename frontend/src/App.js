@@ -17,6 +17,7 @@ import PlaceOrderPage from './pages/PlaceOrderPage';
 import NotificationManagement from './pages/admin/NotificationManagement';
 import AdvertisementManagement from './pages/admin/AdvertisementManagement';
 import PlaceOrderDetails from "./components/PlaceOrderDetail";
+import PlaceOrder from './components/PlaceOrder';
 
 function App() {
   return (
@@ -41,7 +42,7 @@ function App() {
 
        
 
-        <Route path="/place-order" element={<PlaceOrderDetails />} />
+        <Route path="/place-order" element={<PlaceOrder />} />
 
 
       </Routes>

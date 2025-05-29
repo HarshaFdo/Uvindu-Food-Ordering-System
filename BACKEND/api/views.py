@@ -14,7 +14,9 @@ from .models import AdditionalMeal, Notification, Advertisement
 from .serializers import AdditionalMealSerializer, NotificationSerializer, AdvertisementSerializer
 from .models import OrderingStatus
 from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from .models import OrderingStatus
+from .serializers import OrderSerializer
 
 
 class GoogleLoginAPIView(APIView):
@@ -145,3 +147,14 @@ def place_order(request):
         return JsonResponse({"message": "Order placed successfully"})
     else:
         return JsonResponse({"error": "Invalid HTTP method"}, status=405)
+
+class OrderViewSet(viewsets.ModelViewSet):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get_permissions(self):
+        if self.request.method in permissions.SAFE_METHODS:
+            return [permissions.IsAuthenticated()]
+        return [permissions.IsAdminUser()]

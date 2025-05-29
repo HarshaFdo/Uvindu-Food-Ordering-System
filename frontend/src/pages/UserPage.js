@@ -258,6 +258,7 @@ function UserPage() {
                 cart={cart}
                 removeFromCart={removeFromCart}
                 updateQuantity={updateQuantity}
+                user={user}
               />
             </div>
           )}

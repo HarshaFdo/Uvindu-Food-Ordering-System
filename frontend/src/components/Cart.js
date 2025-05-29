@@ -2,7 +2,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-function Cart({ cart, removeFromCart, updateQuantity }) {
+function Cart({ cart, removeFromCart, updateQuantity, user }) {
   const navigate = useNavigate();
 
   const calculateTotal = () => {
@@ -97,7 +97,7 @@ function Cart({ cart, removeFromCart, updateQuantity }) {
 
       {/* Place Order Button */}
       <button
-        onClick={() => navigate("/place-order", { state: { cart } })}
+        onClick={() => navigate("/place-order", { state: { cart, user } })}
         className="w-full bg-[#F97A48] hover:bg-[#e8693f] text-white font-bold py-3 px-6 rounded-full transition-colors shadow-lg"
       >
         Place Order

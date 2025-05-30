@@ -160,7 +160,11 @@ SOCIALACCOUNT_PROVIDERS = {
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    ),
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated', # Common choice
+        # 'rest_framework.permissions.AllowAny', # Allows anyone
+    ]
 }
 
 CORS_ALLOW_ALL_ORIGINS = True

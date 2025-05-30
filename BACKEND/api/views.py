@@ -9,14 +9,12 @@ from google.auth.transport import requests as google_requests
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import viewsets, permissions
 from .models import Meal, Order
-from .serializers import MealSerializer
+from .serializers import MealSerializer, OrderSerializer
 from .models import AdditionalMeal, Notification, Advertisement
 from .serializers import AdditionalMealSerializer, NotificationSerializer, AdvertisementSerializer
 from .models import OrderingStatus
-from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from .serializers import OrderSerializer
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 
 class GoogleLoginAPIView(APIView):

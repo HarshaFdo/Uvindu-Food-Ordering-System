@@ -37,10 +37,6 @@ function App() {
         <Route path="/admin/notifications" element={<NotificationManagement />} />
         <Route path="/admin/advertisements" element={<AdvertisementManagement />} />
 
-
-
-       
-
         <Route path="/place-order" element={<PlaceOrder />} />
 
 

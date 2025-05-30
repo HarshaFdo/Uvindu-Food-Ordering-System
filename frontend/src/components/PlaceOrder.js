@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import axios from "axios";
 
 function PlaceOrder() {
   const navigate = useNavigate();
   const location = useLocation();
   const { cart, user } = location.state || {};
-
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [hostel, setHostel] = useState("");
@@ -37,7 +35,7 @@ function PlaceOrder() {
     setError("");
 
     // Validation
-    if (!name || !phoneNumber || !hostel || !roomNumber) {
+    if (!name || !phoneNumber || !hostel) {
       setError("Please fill in all required fields");
       setLoading(false);
       return;
@@ -72,17 +70,20 @@ function PlaceOrder() {
     };
 
     try {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/api/orders/",
-        payload,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      console.log("Order placed successfully:", response.data);
+      const response = await fetch("http://127.0.0.1:8000/api/orders/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Something went wrong");
+      }
+      const data = await response.json();
+      console.log("Order placed successfully:", data);
       alert("Order placed successfully!");
       navigate("/user", { state: { user } });
     } catch (error) {
@@ -102,7 +103,7 @@ function PlaceOrder() {
   // Show loading or redirect message if data is missing
   if (!cart || !user) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="flex items-center justify-center min-h-screen bg-gray-50">
         <div className="text-center">
           <p className="text-gray-600">Loading...</p>
         </div>
@@ -113,8 +114,8 @@ function PlaceOrder() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-white shadow-sm px-4 py-4">
-        <div className="flex justify-between items-center max-w-4xl mx-auto">
+      <div className="px-4 py-4 bg-white shadow-sm">
+        <div className="flex items-center justify-between max-w-4xl mx-auto">
           <h1 className="text-2xl font-bold text-gray-800">
             Complete Your Order
           </h1>
@@ -127,24 +128,24 @@ function PlaceOrder() {
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 py-8">
+      <div className="max-w-4xl px-4 py-8 mx-auto">
         <div className="flex gap-8">
           {/* Order Form */}
           <div className="flex-1">
-            <div className="bg-white rounded-2xl p-8 shadow-lg">
-              <h2 className="text-xl font-bold text-gray-800 mb-6">
+            <div className="p-8 bg-white shadow-lg rounded-2xl">
+              <h2 className="mb-6 text-xl font-bold text-gray-800">
                 Delivery Details
               </h2>
 
               {error && (
-                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-6">
+                <div className="px-4 py-3 mb-6 text-red-700 bg-red-100 border border-red-400 rounded-lg">
                   {error}
                 </div>
               )}
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block mb-2 text-sm font-medium text-gray-700">
                     Full Name *
                   </label>
                   <input
@@ -158,7 +159,7 @@ function PlaceOrder() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block mb-2 text-sm font-medium text-gray-700">
                     Phone Number *
                   </label>
                   <input
@@ -172,7 +173,7 @@ function PlaceOrder() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block mb-2 text-sm font-medium text-gray-700">
                     Hostel *
                   </label>
                   <select
@@ -191,7 +192,7 @@ function PlaceOrder() {
 
                 {hostel === "Other" && (
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block mb-2 text-sm font-medium text-gray-700">
                       Hostel Name *
                     </label>
                     <input
@@ -206,7 +207,7 @@ function PlaceOrder() {
                 )}
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block mb-2 text-sm font-medium text-gray-700">
                     Room Number *
                   </label>
                   <input
@@ -236,16 +237,16 @@ function PlaceOrder() {
 
           {/* Order Summary */}
           <div className="w-80">
-            <div className="bg-white rounded-2xl p-6 shadow-lg sticky top-6">
-              <h3 className="text-lg font-bold text-gray-800 mb-4">
+            <div className="sticky p-6 bg-white shadow-lg rounded-2xl top-6">
+              <h3 className="mb-4 text-lg font-bold text-gray-800">
                 Order Summary
               </h3>
 
-              <div className="space-y-3 mb-6">
+              <div className="mb-6 space-y-3">
                 {cart.map((item, index) => (
-                  <div key={index} className="flex justify-between items-start">
+                  <div key={index} className="flex items-start justify-between">
                     <div className="flex-1">
-                      <h4 className="font-medium text-sm text-gray-800">
+                      <h4 className="text-sm font-medium text-gray-800">
                         {item.name}
                       </h4>
                       <p className="text-xs text-gray-500 capitalize">
@@ -258,7 +259,7 @@ function PlaceOrder() {
                       )}
                     </div>
                     <div className="text-right">
-                      <p className="font-medium text-sm text-gray-800">
+                      <p className="text-sm font-medium text-gray-800">
                         Rs.{(item.price * item.quantity).toFixed(2)}
                       </p>
                     </div>
@@ -266,8 +267,8 @@ function PlaceOrder() {
                 ))}
               </div>
 
-              <div className="border-t pt-4">
-                <div className="flex justify-between items-center">
+              <div className="pt-4 border-t">
+                <div className="flex items-center justify-between">
                   <span className="text-lg font-bold text-gray-800">Total</span>
                   <span className="text-xl font-bold text-[#F97A48]">
                     Rs.{calculateTotal()}

@@ -42,6 +42,7 @@ function Meal({ meal, onAddToCart, selectedPortion, onPortionChange }) {
   };
 
   return (
+    
     <div className="bg-[#7EC646] rounded-2xl p-4 text-white shadow-lg">
       {/* Meal Image */}
       <div className="relative mb-4 rounded-xl overflow-hidden">

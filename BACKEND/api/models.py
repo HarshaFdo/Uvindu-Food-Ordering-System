@@ -32,12 +32,13 @@ class OrderingStatus(models.Model):
 # for active order and past orders
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)
-    phone_number = models.CharField(max_length=15)
-    hostel = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, default='Unknown')
+    phone_number = models.CharField(max_length=20, default='Not Provided')
+    hostel = models.CharField(max_length=100, default='Unknown')
     room_number = models.CharField(max_length=20, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
+
 
     def __str__(self):
         return f"Order {self.id} - {self.user.username}"

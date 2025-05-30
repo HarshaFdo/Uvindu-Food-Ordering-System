@@ -1,9 +1,10 @@
 // pages/UserPage.js
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import Meal from "../components/Meal";
 import Cart from "../components/Cart";
+import Footer from "../components/Footer";
 
 function UserPage() {
   const navigate = useNavigate();
@@ -235,19 +236,8 @@ function UserPage() {
             </div>
 
             {/* Footer Banner */}
-            <div className="bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl p-8 text-white text-center relative overflow-hidden">
-              <div className="absolute inset-0 opacity-20">
-                <div className="absolute inset-0 bg-black/10"></div>
-              </div>
-              <div className="relative z-10">
-                <h2 className="text-3xl font-bold mb-2">
-                  Place Your <span className="text-yellow-300">Order</span> With{" "}
-                  <span className="text-yellow-300">Us</span>
-                </h2>
-                <p className="text-lg opacity-90">
-                  Free Delivery Around University of Sabaragamuwa
-                </p>
-              </div>
+            <div>
+              <Footer />
             </div>
           </div>
 

@@ -13,7 +13,6 @@ import MealManagement from './pages/admin/MealManagement';
 import AdditionalMealManagement from './pages/admin/AdditionalMealManagement';
 import Orders from './pages/admin/Orders';
 import TrackingMap from './pages/TrackingMap';
-import PlaceOrderPage from './pages/PlaceOrderPage';
 import NotificationManagement from './pages/admin/NotificationManagement';
 import AdvertisementManagement from './pages/admin/AdvertisementManagement';
 import PlaceOrder from './components/PlaceOrder';
@@ -31,12 +30,8 @@ function App() {
         <Route path="/admin/additionalmeals" element={<AdditionalMealManagement />} />
         <Route path="/admin/orders" element={<Orders />} />
         <Route path="/tracking" element={<TrackingMap />} />
-
-
-        <Route path="/checkout" element={<PlaceOrderPage />} />
         <Route path="/admin/notifications" element={<NotificationManagement />} />
         <Route path="/admin/advertisements" element={<AdvertisementManagement />} />
-
         <Route path="/place-order" element={<PlaceOrder />} />
 
 

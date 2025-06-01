@@ -9,12 +9,15 @@ from google.auth.transport import requests as google_requests
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import viewsets, permissions
 from .models import Meal, Order
-from .serializers import MealSerializer, OrderSerializer
+from .serializers import MealSerializer
 from .models import AdditionalMeal, Notification, Advertisement
 from .serializers import AdditionalMealSerializer, NotificationSerializer, AdvertisementSerializer
 from .models import OrderingStatus
+from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from .serializers import OrderSerializer
+from rest_framework.permissions import AllowAny
+from .serializers import PlaceOrderSerializer
 
 
 class GoogleLoginAPIView(APIView):
@@ -137,25 +140,27 @@ class AdvertisementViewSet(viewsets.ModelViewSet):
         return [permissions.IsAdminUser()]
 
 
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-
-@csrf_exempt
-def place_order(request):
-    if request.method == "POST":
-        # Your logic here to handle the order
-        return JsonResponse({"message": "Order placed successfully"})
-    else:
-        return JsonResponse({"error": "Invalid HTTP method"}, status=405)
 
 class OrderViewSet(viewsets.ModelViewSet):
-    permission_classes = [AllowAny]
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
 
     def get_permissions(self):
-        if self.request.method in permissions.SAFE_METHODS:
+        if self.action == 'create':
+            return [permissions.IsAuthenticated()]
+        elif self.request.method in permissions.SAFE_METHODS:
             return [permissions.IsAuthenticated()]
         return [permissions.IsAdminUser()]
+
+
+class PlaceOrderAPIView(APIView):
+    permission_classes = [AllowAny]
+    authentication_classes = [JWTAuthentication]
+
+    def post(self, request):
+        serializer = PlaceOrderSerializer(data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Order placed successfully!"}, status=201)
+        return Response(serializer.errors, status=400)

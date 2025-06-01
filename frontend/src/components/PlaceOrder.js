@@ -70,7 +70,7 @@ function PlaceOrder() {
     };
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/orders/", {
+      const response = await fetch("http://127.0.0.1:8000/api/place-order/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -78,7 +78,6 @@ function PlaceOrder() {
         },
         body: JSON.stringify(payload),
       });
-
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Something went wrong");

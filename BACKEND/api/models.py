@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
 
 class Meal(models.Model):
     name = models.CharField(max_length=100)
@@ -83,3 +84,8 @@ class PlaceOrder(models.Model):
     hostel = models.CharField(max_length=100)
     room = models.CharField(max_length=10)
     created_at = models.DateTimeField(auto_now_add=True)
+
+class DeliveryLocation(models.Model):
+    latitude = models.FloatField(null=False, blank=False)
+    longitude = models.FloatField(null=False, blank=False)
+    updated_at = models.DateTimeField(auto_now=True)

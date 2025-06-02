@@ -16,6 +16,7 @@ import TrackingMap from './pages/TrackingMap';
 import NotificationManagement from './pages/admin/NotificationManagement';
 import AdvertisementManagement from './pages/admin/AdvertisementManagement';
 import PlaceOrder from './components/PlaceOrder';
+import DeliveryMap from './pages/DeliveryMap';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
         <Route path="/admin/notifications" element={<NotificationManagement />} />
         <Route path="/admin/advertisements" element={<AdvertisementManagement />} />
         <Route path="/place-order" element={<PlaceOrder />} />
+        <Route path="/delivery-map" element={<DeliveryMap />} />
 
 
       </Routes>

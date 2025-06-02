@@ -145,7 +145,7 @@ function UserPage() {
                       </p>
                       <p className="text-sm mb-4">ETA : 30 minutes</p>
                       <button
-                        onClick={() => navigate("/tracking")}
+                        onClick={() => navigate("/delivery-map")}
                         className="bg-red-500 hover:bg-red-600 px-6 py-2 rounded-full text-sm font-medium transition-colors"
                       >
                         Track Order

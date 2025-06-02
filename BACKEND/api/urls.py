@@ -14,7 +14,10 @@ from .views import (
     OrderViewSet,
     ActiveOrderAPIView,
     PlaceOrderAPIView,
+    update_location,
+    latest_location,
 )
+
 
 # Router for ViewSets
 router = DefaultRouter()
@@ -40,4 +43,11 @@ urlpatterns = [
     path('place-order/', PlaceOrderAPIView.as_view(), name='place-order'),  # Fixed this line
     path("set-order-time-status/", set_order_time_status, name="set-order-time-status"),
     path("get-order-time-status/", get_order_time_status, name="get-order-time-status"),
+
+    # Delivery location endpoints (remove 'api/' prefix here)
+    path('delivery-location/update/', update_location, name='update_location'),
+    path('delivery-location/latest/', latest_location, name='latest_location'),
 ]
+
+    # path('delivery-location/update/', update_location, name='update_location'),
+    # path('delivery-location/latest/', latest_location, name='latest_location'),

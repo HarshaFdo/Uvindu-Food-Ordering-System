@@ -21,45 +21,31 @@ function Recenter({ position }) {
   return null;
 }
 
-const TrackingMap = () => {
-  const [position, setPosition] = useState([6.71426, 80.78663]); // Default location
+const DeliveryMap = () => {
+  const [deliveryPosition, setDeliveryPosition] = useState([6.71426, 80.78663]); // Default if no data
 
   useEffect(() => {
-    const sendPositionToBackend = async (coords) => {
+    const fetchDeliveryPosition = async () => {
       try {
-        await axios.post('http://localhost:8000/api/delivery-location/update/', {
-          latitude: coords.latitude,
-          longitude: coords.longitude,
-        });
+        const res = await axios.get('http://localhost:8000/api/delivery-location/latest/');
+        const { latitude, longitude } = res.data;
+        setDeliveryPosition([latitude, longitude]);
       } catch (error) {
-        console.error('Error sending location:', error);
+        console.error('Error fetching delivery location:', error);
       }
     };
 
-    const watchId = navigator.geolocation.watchPosition(
-      (pos) => {
-        const coords = pos.coords;
-        const newPos = [coords.latitude, coords.longitude];
-        setPosition(newPos);
-        sendPositionToBackend(coords);
-      },
-      (err) => {
-        console.error('Geolocation error:', err);
-      },
-      {
-        enableHighAccuracy: true,
-        timeout: 5000,
-        maximumAge: 0,
-      }
-    );
+    fetchDeliveryPosition();
 
-    return () => navigator.geolocation.clearWatch(watchId);
+    const interval = setInterval(fetchDeliveryPosition, 10000); // Refresh every 10 seconds
+
+    return () => clearInterval(interval);
   }, []);
 
   return (
     <div style={{ padding: '1rem', maxWidth: '100%', boxSizing: 'border-box' }}>
       <h2 style={{ textAlign: 'center', fontSize: '1.4rem', marginBottom: '1rem' }}>
-        🚴 Live Delivery Location
+        📍 Delivery Boy Location
       </h2>
       <div
         style={{
@@ -71,7 +57,7 @@ const TrackingMap = () => {
         }}
       >
         <MapContainer
-          center={position}
+          center={deliveryPosition}
           zoom={15}
           scrollWheelZoom={true}
           style={{ height: '100%', width: '100%' }}
@@ -80,12 +66,12 @@ const TrackingMap = () => {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution="&copy; OpenStreetMap contributors"
           />
-          <Marker position={position} />
-          <Recenter position={position} />
+          <Marker position={deliveryPosition} />
+          <Recenter position={deliveryPosition} />
         </MapContainer>
       </div>
     </div>
   );
 };
 
-export default TrackingMap;
+export default DeliveryMap;

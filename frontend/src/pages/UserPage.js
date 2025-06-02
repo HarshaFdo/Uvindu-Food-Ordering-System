@@ -113,7 +113,7 @@ function UserPage() {
           <button className="hover:text-[#F97A48]">Menu</button>
           <button
             className="hover:text-[#F97A48]"
-            onClick={() => navigate("/tracking")}
+            onClick={() => navigate("/orders")}
           >
             My Orders
           </button>

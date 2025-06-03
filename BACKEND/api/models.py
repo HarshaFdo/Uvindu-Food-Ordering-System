@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
 
 class Meal(models.Model):
     name = models.CharField(max_length=100)
@@ -29,24 +30,30 @@ class OrderingStatus(models.Model):
         return f"Ordering Enabled: {self.is_ordering_enabled}"
 
 
-
+# for active order and past orders
 class Order(models.Model):
-    STATUS_CHOICES = [
-        ('pending', 'Pending'),
-        ('preparing', 'Preparing'),
-        ('on_the_way', 'On the Way'),
-        ('delivered', 'Delivered'),
-    ]
-
-    order_number = models.CharField(max_length=20, unique=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    items = models.TextField()  # Could be JSON if needed
-    eta = models.DateTimeField()
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES)
+    name = models.CharField(max_length=100, default='Unknown')
+    phone_number = models.CharField(max_length=20, default='Not Provided')
+    hostel = models.CharField(max_length=100, default='Unknown')
+    room_number = models.CharField(max_length=20, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True)
+
 
     def __str__(self):
-        return f"#{self.order_number} - {self.status}"
+        return f"Order {self.id} - {self.user.username}"
+    
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
+    meal = models.ForeignKey('Meal', on_delete=models.CASCADE)
+    portion = models.CharField(max_length=20)
+    additional_meal = models.ForeignKey('AdditionalMeal', null=True, blank=True, on_delete=models.SET_NULL)
+    quantity = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f"{self.quantity} x {self.meal.name}"
+
     
 class Notification(models.Model):
     title = models.CharField(max_length=255)
@@ -77,3 +84,8 @@ class PlaceOrder(models.Model):
     hostel = models.CharField(max_length=100)
     room = models.CharField(max_length=10)
     created_at = models.DateTimeField(auto_now_add=True)
+
+class DeliveryLocation(models.Model):
+    latitude = models.FloatField(null=False, blank=False)
+    longitude = models.FloatField(null=False, blank=False)
+    updated_at = models.DateTimeField(auto_now=True)

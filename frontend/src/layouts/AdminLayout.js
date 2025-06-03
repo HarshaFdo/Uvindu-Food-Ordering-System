@@ -157,7 +157,9 @@ const AdminLayout = ({ children }) => {
     { id: 'additional', label: 'Additional Meals', icon: Add, path: '/admin/additionalmeals' },
     { id: 'orders', label: 'View Orders', icon: ShoppingCart, path: '/admin/orders' },
     { id: 'notification', label: 'Notification', icon: Bell, path: '/admin/notifications' },
-    { id: 'advertisement', label: 'Advertisements', icon: Speaker, path: '/admin/advertisements' }
+    { id: 'advertisement', label: 'Advertisements', icon: Speaker, path: '/admin/advertisements' },
+
+    { id: 'tracking', label: 'Tracking Map', icon: Home, path: '/tracking' }
   ]
 
   const handleDrawerToggle = () => {

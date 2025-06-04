@@ -16,6 +16,7 @@ from .views import (
     PlaceOrderAPIView,
     update_location,
     latest_location,
+    update_order_status
 )
 
 
@@ -47,6 +48,9 @@ urlpatterns = [
     # Delivery location endpoints (remove 'api/' prefix here)
     path('delivery-location/update/', update_location, name='update_location'),
     path('delivery-location/latest/', latest_location, name='latest_location'),
+
+    # For update status
+    path('api/orders/<int:order_id>/update-status/', update_order_status, name='update_order_status'),
 ]
 
     # path('delivery-location/update/', update_location, name='update_location'),

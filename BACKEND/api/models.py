@@ -32,6 +32,12 @@ class OrderingStatus(models.Model):
 
 # for active order and past orders
 class Order(models.Model):
+    STATUS_CHOICES = [
+        ('preparing', 'Preparing'),
+        ('out_for_delivery', 'Out for Delivery'),
+        ('delivered', 'Delivered'),
+    ]
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, default='Unknown')
     phone_number = models.CharField(max_length=20, default='Not Provided')
@@ -39,6 +45,8 @@ class Order(models.Model):
     room_number = models.CharField(max_length=20, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='preparing')
+    eta_minutes = models.IntegerField(default=30)
 
 
     def __str__(self):
@@ -89,3 +97,5 @@ class DeliveryLocation(models.Model):
     latitude = models.FloatField(null=False, blank=False)
     longitude = models.FloatField(null=False, blank=False)
     updated_at = models.DateTimeField(auto_now=True)
+
+

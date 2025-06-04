@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
-
 from rest_framework import status, viewsets, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -8,7 +7,6 @@ from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.authentication import JWTAuthentication
-
 from google.oauth2 import id_token
 from google.auth.transport import requests as google_requests
 
@@ -64,13 +62,18 @@ class GoogleLoginAPIView(APIView):
 # Meal Views
 class MealViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
-    queryset = Meal.objects.all()
     serializer_class = MealSerializer
+
+    def get_queryset(self):
+        return Meal.objects.filter(availability=True)
+    
 
 class AdditionalMealViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
-    queryset = AdditionalMeal.objects.all()
     serializer_class = AdditionalMealSerializer
+
+    def get_queryset(self):
+        return AdditionalMeal.objects.filter(availability=True)
 
 class MealListAPIView(APIView):
     def get(self, request):

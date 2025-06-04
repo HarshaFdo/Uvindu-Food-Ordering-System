@@ -119,6 +119,15 @@ function UserPage() {
           </button>
           <button className="hover:text-[#F97A48]">Pre-orders</button>
         </div>
+        {/* Logout Button */}
+      <div className="fixed bottom-4 right-4">
+        <button
+          onClick={handleLogout}
+          className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full shadow-lg transition-colors"
+        >
+          Logout
+        </button>
+      </div>
       </div>
 
       <div className="max-w-6xl mx-auto px-4 py-6">
@@ -235,10 +244,7 @@ function UserPage() {
               )}
             </div>
 
-            {/* Footer Banner */}
-            <div>
-              <Footer />
-            </div>
+            
           </div>
 
           {/* Cart Sidebar */}
@@ -255,15 +261,12 @@ function UserPage() {
         </div>
       </div>
 
-      {/* Logout Button */}
-      <div className="fixed bottom-4 right-4">
-        <button
-          onClick={handleLogout}
-          className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full shadow-lg transition-colors"
-        >
-          Logout
-        </button>
-      </div>
+      
+
+            <div>
+              <Footer />
+            </div>
+
     </div>
   );
 }

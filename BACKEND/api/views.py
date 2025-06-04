@@ -3,12 +3,14 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status, viewsets, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.decorators import api_view,  permission_classes
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from google.oauth2 import id_token
 from google.auth.transport import requests as google_requests
+from rest_framework import status
+from .models import Order
 
 from .models import (
     Meal, AdditionalMeal, Notification, Advertisement,
@@ -187,3 +189,22 @@ def latest_location(request):
         return Response({'latitude': loc.latitude, 'longitude': loc.longitude})
     except DeliveryLocation.DoesNotExist:
         return Response({'error': 'No location found'}, status=404)
+
+# For update ETA and status through admin dashboard
+@api_view(['PATCH'])
+@permission_classes([IsAdminUser])
+def update_order_status(request, order_id):
+    try:
+        order = Order.objects.get(id=order_id)
+        status_val = request.data.get('status')
+        eta_val = request.data.get('eta_minutes')
+
+        if status_val:
+            order.status = status_val
+        if eta_val:
+            order.eta_minutes = eta_val
+        order.save()
+
+        return Response({"message": "Order updated successfully."})
+    except Order.DoesNotExist:
+        return Response({"error": "Order not found."}, status=status.HTTP_404_NOT_FOUND)

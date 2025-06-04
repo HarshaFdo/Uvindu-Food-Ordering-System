@@ -134,19 +134,42 @@ function UserPage() {
                   <p className="text-sm opacity-90">No active orders.</p>
                 ) : (
                   activeOrders.map((order) => (
-                    <div key={order.id}>
-                      <p className="text-sm mb-1">Order No : #{order.id}</p>
-                      <p className="text-sm mb-1">
-                        {order.items.map((item) => `${item.meal}`).join(", ")}
+                    <div
+                      key={order.id}
+                      className="mb-6 border-b border-yellow-300 pb-4"
+                    >
+                      <p className="text-sm mb-1">Order No: #{order.id}</p>
+
+                      {order.items.map((item, index) => (
+                        <div key={index} className="text-sm mb-1 pl-2">
+                          🍽 <strong>{item.meal.name}</strong> ({item.portion}) ×{" "}
+                          {item.quantity}
+                          {item.additional_meal?.length > 0 && (
+                            <span>
+                              {" + "}
+                              {item.additional_meal
+                                .map((am) => am.name)
+                                .join(", ")}
+                            </span>
+                          )}
+                        </div>
+                      ))}
+
+                      <p className="text-sm mt-2">
+                        Status:{" "}
+                        <span className="text-green-200 font-medium">
+                          {order.status}
+                        </span>
                       </p>
-                      <p className="text-sm mb-3">
-                        Status :{" "}
-                        <span className="text-green-200">Preparing</span>
-                      </p>
-                      <p className="text-sm mb-4">ETA : 30 minutes</p>
+                      {order.eta_minutes && (
+                        <p className="text-sm">
+                          ETA: {order.eta_minutes} minutes
+                        </p>
+                      )}
+
                       <button
                         onClick={() => navigate("/delivery-map")}
-                        className="bg-red-500 hover:bg-red-600 px-6 py-2 rounded-full text-sm font-medium transition-colors"
+                        className="mt-3 bg-red-500 hover:bg-red-600 px-6 py-2 rounded-full text-sm font-medium transition-colors"
                       >
                         Track Order
                       </button>

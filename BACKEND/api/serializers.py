@@ -36,6 +36,9 @@ class AdvertisementSerializer(serializers.ModelSerializer):
 
 # Define OrderItemSerializer for reading/displaying orders
 class OrderItemSerializer(serializers.ModelSerializer):
+    meal = MealSerializer()  # include full meal details
+    additional_meal = AdditionalMealSerializer()
+
     class Meta:
         model = OrderItem
         fields = '__all__'

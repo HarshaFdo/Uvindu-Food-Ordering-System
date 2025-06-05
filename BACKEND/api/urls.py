@@ -39,6 +39,7 @@ urlpatterns = [
 
     # Custom endpoints
     path("meals/available/", MealListAPIView.as_view(), name="available-meal-list"),
+    # path("meals/available/id/", MealListAPIView.as_view(), name="available-meal-detail"),
     path("user-count/", user_count, name="user-count"),
     path('active-orders/', ActiveOrderAPIView.as_view(), name='active-orders'),
     path('place-order/', PlaceOrderAPIView.as_view(), name='place-order'),  # Fixed this line

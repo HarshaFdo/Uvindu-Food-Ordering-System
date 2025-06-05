@@ -31,22 +31,49 @@ function MyOrdersPage() {
           </tr>
         </thead>
         <tbody>
-          {orders.map((order) => (
-            <tr key={order.id}>
-              <td className="p-2 border">{order.id}</td>
-              <td className="p-2 border">Rs. {(order.price * order.quantity)}</td>
-              <td className="p-2 border">
-                {new Date(order.created_at).toLocaleString()}
-              </td>
-              <td className="p-2 border">
-                {order.is_active ? "Preparing" : "Delivered"}
-              </td>
-              <td className="p-2 border">{order.meal || "-"}</td>
-              <td className="p-2 border">
-                {order.additional_meal|| "-"}
-              </td>
-            </tr>
-          ))}
+          {orders.map((order) => {
+            // --- Calculate total price including additional meals ---
+            const totalPrice = order.items.reduce((total, item) => {
+              const portion = item.portion;
+              const mealPrice =
+                portion === "half"
+                  ? item.meal?.half_price || 0
+                  : item.meal?.full_price || 0;
+
+              const additionalPrice = item.additional_meal
+                ? portion === "half"
+                  ? item.additional_meal.half_price || 0
+                  : item.additional_meal.full_price || 0
+                : 0;
+
+              return total + (mealPrice + additionalPrice) * item.quantity;
+            }, 0);
+
+            // --- Prepare meal names ---
+            const mealNames = order.items
+              .map((item) => item.meal?.name)
+              .join(", ");
+
+            const additionalMealNames =
+              order.items
+                .map((item) => item.additional_meal?.name)
+                .filter(Boolean)
+                .join(", ") || "-";
+            return (
+              <tr key={order.id}>
+                <td className="p-2 border">{order.id}</td>
+                <td className="p-2 border">Rs. {totalPrice.toFixed(2)}</td>
+                <td className="p-2 border">
+                  {new Date(order.created_at).toLocaleString()}
+                </td>
+                <td className="p-2 border">
+                  {order.is_active ? "Preparing" : "Delivered"}
+                </td>
+                <td className="p-2 border">{mealNames}</td>
+                <td className="p-2 border">{additionalMealNames}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>

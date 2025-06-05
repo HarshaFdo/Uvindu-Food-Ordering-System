@@ -150,6 +150,13 @@ class OrderViewSet(viewsets.ModelViewSet):
             return [permissions.IsAuthenticated()]
         return [permissions.IsAdminUser()]
 
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_staff:
+            return Order.objects.all()
+        return Order.objects.filter(user=user).order_by('-created_at')
+
+
 class PlaceOrderAPIView(APIView):
     permission_classes = [AllowAny]
     authentication_classes = [JWTAuthentication]

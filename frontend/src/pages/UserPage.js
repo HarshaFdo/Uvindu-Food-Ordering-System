@@ -91,10 +91,10 @@ function UserPage() {
   const pastOrders = orders.filter((order) => !order.is_active);
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20">
+    <div className="min-h-screen pb-20 bg-gray-50">
       {/* Header */}
-      <div className="bg-white shadow-sm px-4 py-4">
-        <div className="flex justify-between items-center max-w-6xl mx-auto">
+      <div className="px-4 py-4 bg-white shadow-sm">
+        <div className="flex items-center justify-between max-w-6xl mx-auto">
           <div className="flex items-center space-x-4">
             <h1 className="text-2xl font-bold text-gray-800">Uvindu LOGO</h1>
           </div>
@@ -106,42 +106,41 @@ function UserPage() {
         </div>
 
         {/* Navigation */}
-        <div className="flex justify-center space-x-8 mt-4 text-gray-600">
+        <div className="flex justify-center mt-4 space-x-8 text-gray-600">
           <button className="font-medium border-b-2 border-[#F97A48] text-[#F97A48] pb-1">
             Home
           </button>
           <button className="hover:text-[#F97A48]">Menu</button>
           <button
             className="hover:text-[#F97A48]"
-            onClick={() => navigate("/orders")}
+            onClick={() => navigate("/my-orders")}
           >
-            My Orders
+            MyOrders
           </button>
-          <button className="hover:text-[#F97A48]">Pre-orders</button>
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 py-6">
+      <div className="max-w-6xl px-4 py-6 mx-auto">
         <div className="flex gap-6">
           {/* Main Content */}
           <div className="flex-1">
             {/* Order Status Cards */}
             <div className="flex gap-4 mb-8">
               {/* Active Order */}
-              <div className="bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-2xl p-6 text-white flex-1">
-                <h3 className="text-lg font-bold mb-4">Active Order</h3>
+              <div className="flex-1 p-6 text-white bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-2xl">
+                <h3 className="mb-4 text-lg font-bold">Active Order</h3>
                 {activeOrders.length === 0 ? (
                   <p className="text-sm opacity-90">No active orders.</p>
                 ) : (
                   activeOrders.map((order) => (
                     <div
                       key={order.id}
-                      className="mb-6 border-b border-yellow-300 pb-4"
+                      className="pb-4 mb-6 border-b border-yellow-300"
                     >
-                      <p className="text-sm mb-1">Order No: #{order.id}</p>
+                      <p className="mb-1 text-sm">Order No: #{order.id}</p>
 
                       {order.items.map((item, index) => (
-                        <div key={index} className="text-sm mb-1 pl-2">
+                        <div key={index} className="pl-2 mb-1 text-sm">
                           🍽 <strong>{item.meal.name}</strong> ({item.portion}) ×{" "}
                           {item.quantity}
                           {item.additional_meal?.length > 0 && (
@@ -155,9 +154,9 @@ function UserPage() {
                         </div>
                       ))}
 
-                      <p className="text-sm mt-2">
+                      <p className="mt-2 text-sm">
                         Status:{" "}
-                        <span className="text-green-200 font-medium">
+                        <span className="font-medium text-green-200">
                           {order.status}
                         </span>
                       </p>
@@ -169,7 +168,7 @@ function UserPage() {
 
                       <button
                         onClick={() => navigate("/delivery-map")}
-                        className="mt-3 bg-red-500 hover:bg-red-600 px-6 py-2 rounded-full text-sm font-medium transition-colors"
+                        className="px-6 py-2 mt-3 text-sm font-medium transition-colors bg-red-500 rounded-full hover:bg-red-600"
                       >
                         Track Order
                       </button>
@@ -179,8 +178,8 @@ function UserPage() {
               </div>
 
               {/* Recent Orders */}
-              <div className="bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-2xl p-6 text-white flex-1">
-                <h3 className="text-lg font-bold mb-4">Recent Orders</h3>
+              <div className="flex-1 p-6 text-white bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-2xl">
+                <h3 className="mb-4 text-lg font-bold">Recent Orders</h3>
                 {pastOrders.length === 0 ? (
                   <p className="text-sm opacity-90">No recent orders.</p>
                 ) : (
@@ -188,9 +187,9 @@ function UserPage() {
                     {pastOrders.slice(0, 2).map((order) => (
                       <div
                         key={order.id}
-                        className="bg-white/20 rounded-lg p-3"
+                        className="p-3 rounded-lg bg-white/20"
                       >
-                        <div className="flex justify-between items-center">
+                        <div className="flex items-center justify-between">
                           <div>
                             <p className="text-sm">Order : #{order.id}</p>
                             <p className="text-xs opacity-80">Rs.400</p>
@@ -200,7 +199,7 @@ function UserPage() {
                             <p className="text-sm">
                               {order.items.map((item) => item.meal).join(", ")}
                             </p>
-                            <button className="text-xs underline mt-1">
+                            <button className="mt-1 text-xs underline">
                               View →
                             </button>
                           </div>
@@ -222,7 +221,7 @@ function UserPage() {
                 onChange={(e) => setSearchText(e.target.value)}
                 className="w-full bg-gray-100 rounded-full px-4 py-3 pr-12 text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#F97A48]"
               />
-              <button className="absolute right-3 top-1/2 transform -translate-y-1/2">
+              <button className="absolute transform -translate-y-1/2 right-3 top-1/2">
                 <svg
                   className="w-5 h-5 text-gray-500"
                   fill="none"
@@ -242,7 +241,7 @@ function UserPage() {
             {/* Meals Grid */}
             <div className="grid grid-cols-3 gap-4 mb-8">
               {filteredMeals.length === 0 ? (
-                <div className="col-span-3 text-center py-8">
+                <div className="col-span-3 py-8 text-center">
                   <p className="text-gray-500">No meals available.</p>
                 </div>
               ) : (
@@ -282,7 +281,7 @@ function UserPage() {
       <div className="fixed bottom-4 right-4">
         <button
           onClick={handleLogout}
-          className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full shadow-lg transition-colors"
+          className="px-4 py-2 text-white transition-colors bg-red-500 rounded-full shadow-lg hover:bg-red-600"
         >
           Logout
         </button>

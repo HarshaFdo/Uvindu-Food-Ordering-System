@@ -55,6 +55,16 @@ const Orders = () => {
       console.error('Error updating status:', err);
     }
   };
+
+  const [selectedHostel, setSelectedHostel] = useState('All');
+  const hostels = ['All', ...new Set(orders.map(order => order.hostel))];
+
+  const filteredOrders = selectedHostel === 'All'
+  ? orders
+  : orders.filter(order => order.hostel === selectedHostel);
+
+
+
   
 useEffect(() => { fetchOrders(); }, []);
 
@@ -68,6 +78,8 @@ useEffect(() => { fetchOrders(); }, []);
     return colors[status] || 'default';
   };
 
+
+
   if (loading) return <Typography>Loading orders...</Typography>;
 
   return (
@@ -79,7 +91,23 @@ useEffect(() => { fetchOrders(); }, []);
           {loading ? (
             <CircularProgress />
           ) : (
+            
             <TableContainer component={Paper}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+                <Typography variant="h6">Orders</Typography>
+                <Select
+                  value={selectedHostel}
+                  onChange={(e) => setSelectedHostel(e.target.value)}
+                  size="small"
+                  sx={{ minWidth: 120 }}
+                >
+                  {hostels.map((hostel) => (
+                    <MenuItem key={hostel} value={hostel}>
+                      {hostel}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </Box>
               <Table>
                 <TableHead>
                   <TableRow>
@@ -94,7 +122,7 @@ useEffect(() => { fetchOrders(); }, []);
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {orders.map((order) => (
+                  {filteredOrders.map((order) => (
                     <TableRow key={order.id}>
 
                       <TableCell>{order.name}</TableCell>

@@ -63,19 +63,17 @@ class GoogleLoginAPIView(APIView):
 
 # Meal Views
 class MealViewSet(viewsets.ModelViewSet):
-    permission_classes = [AllowAny]
+    queryset = Meal.objects.all()
     serializer_class = MealSerializer
-
-    def get_queryset(self):
-        return Meal.objects.filter(availability=True)
+    # def get_queryset(self):
+    #     return Meal.objects.filter(availability=True)
     
-
 class AdditionalMealViewSet(viewsets.ModelViewSet):
-    permission_classes = [AllowAny]
+    queryset = AdditionalMeal.objects.all()
     serializer_class = AdditionalMealSerializer
 
-    def get_queryset(self):
-        return AdditionalMeal.objects.filter(availability=True)
+    # def get_queryset(self):
+    #     return AdditionalMeal.objects.filter(availability=True)
 
 class MealListAPIView(APIView):
     def get(self, request):
@@ -149,6 +147,13 @@ class OrderViewSet(viewsets.ModelViewSet):
         if self.action == 'create' or self.request.method in permissions.SAFE_METHODS:
             return [permissions.IsAuthenticated()]
         return [permissions.IsAdminUser()]
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_staff:
+            return Order.objects.all()
+        return Order.objects.filter(user=user).order_by('-created_at')
+
 
 class PlaceOrderAPIView(APIView):
     permission_classes = [AllowAny]

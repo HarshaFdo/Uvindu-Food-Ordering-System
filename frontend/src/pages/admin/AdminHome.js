@@ -51,7 +51,7 @@ const AdminHome = () => {
     severity: 'success'
   });
   const [stats, setStats] = useState({
-    todayOrders: 0,
+    // todayOrders: 0,
     weeklyGrowth: 12.5,
     activeUsers: 0,
     lastUpdated: new Date().toLocaleTimeString()
@@ -89,18 +89,27 @@ const AdminHome = () => {
   };
 
   const fetchOrderCount = async () => {
-    try {
-      const response = await axios.get('http://localhost:8000/api/orders/');
-      setOrderCount(response.data.length);
-      
-      // Calculate today's orders (mock calculation)
-      const todayOrders = Math.floor(response.data.length * 0.1); // Assuming 10% are from today
-      setStats(prev => ({ ...prev, todayOrders }));
-    } catch (err) {
-      console.error('Error fetching orders:', err);
-      throw err;
-    }
-  };
+  try {
+    const token = localStorage.getItem("accessToken");
+    if (!token) throw new Error("No authentication token found");
+
+    const response = await axios.get("http://localhost:8000/api/orders/", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    
+    setOrderCount(response.data.length);
+    
+    // Calculate today's orders (mock calculation)
+    // const todayOrders = Math.floor(response.data.length * 0.1);
+    // setStats(prev => ({ ...prev, todayOrders }));
+  } catch (err) {
+    console.error("Error fetching orders:", err);
+    showSnackbar("Failed to load order count", "error");
+    throw err;
+  }
+};
 
   const fetchAdditionalStats = async () => {
     try {
@@ -421,16 +430,16 @@ const loadDashboardData = async () => {
                 />
               </Grid>
               
-              <Grid item xs={12} sm={6} md={3}>
+              {/* <Grid item xs={12} sm={6} md={3}>
                 <StatCard
                   title="Today's Orders"
                   value={stats.todayOrders}
                   icon={<AnalyticsIcon />}
                   color={theme.palette.warning.main}
                   subtitle="Orders placed today"
-                  // progress={60}
+                  progress={60}
                 />
-              </Grid>
+              </Grid> */}
               
               {/* <Grid item xs={12} sm={6} md={3}>
                 <StatCard

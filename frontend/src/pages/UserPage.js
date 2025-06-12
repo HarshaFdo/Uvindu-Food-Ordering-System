@@ -127,55 +127,66 @@ function UserPage() {
             {/* Order Status Cards */}
             <div className="flex gap-4 mb-8">
               {/* Active Order */}
-              <div className="flex-1 p-6 text-white bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-2xl">
-                <h3 className="mb-4 text-lg font-bold">Active Order</h3>
-                {activeOrders.length === 0 ? (
-                  <p className="text-sm opacity-90">No active orders.</p>
-                ) : (
-                  activeOrders.map((order) => (
-                    <div
-                      key={order.id}
-                      className="pb-4 mb-6 border-b border-yellow-300"
-                    >
-                      <p className="mb-1 text-sm">Order No: #{order.id}</p>
 
-                      {order.items.map((item, index) => (
-                        <div key={index} className="pl-2 mb-1 text-sm">
-                          🍽 <strong>{item.meal.name}</strong> ({item.portion}) ×{" "}
-                          {item.quantity}
-                          {item.additional_meal?.length > 0 && (
+              {activeOrders.map((order) => {
+                // Calculate frontend total for verification
+                const frontendTotal = order.items.reduce((sum, item) => {
+                  const base =
+                    item.portion === "full"
+                      ? parseFloat(item.meal.full_price)
+                      : parseFloat(item.meal.half_price);
+                  const additional = item.additional_meal
+                    ? parseFloat(item.additional_meal.price)
+                    : 0;
+                  return sum + (base + additional) * item.quantity;
+                }, 0);
+
+                return (
+                  <div
+                    key={order.id}
+                    className="pb-4 mb-6 border-b border-yellow-300"
+                  >
+                    <p className="mb-1 text-sm">Order No: #{order.id}</p>
+
+                    {order.items.map((item, index) => {
+                      const basePrice =
+                        item.portion === "full"
+                          ? parseFloat(item.meal.full_price)
+                          : parseFloat(item.meal.half_price);
+                      const additionalPrice = item.additional_meal
+                        ? parseFloat(item.additional_meal.price)
+                        : 0;
+                      const itemTotal =
+                        (basePrice + additionalPrice) * item.quantity;
+
+                      return (
+                        <div key={index} className="pl-2 mb-2 text-sm">
+                          <div className="flex justify-between">
                             <span>
-                              {" + "}
-                              {item.additional_meal
-                                .map((am) => am.name)
-                                .join(", ")}
+                              🍽 <strong>{item.meal.name}</strong> (
+                              {item.portion}) × {item.quantity}
                             </span>
+                            <span>Rs.{itemTotal.toFixed(2)}</span>
+                          </div>
+
+                          {item.additional_meal && (
+                            <div className="ml-4 text-xs opacity-90">
+                              + {item.additional_meal.name} (+Rs.
+                              {additionalPrice.toFixed(2)})
+                            </div>
                           )}
                         </div>
-                      ))}
+                      );
+                    })}
 
-                      <p className="mt-2 text-sm">
-                        Status:{" "}
-                        <span className="font-medium text-green-200">
-                          {order.status}
-                        </span>
-                      </p>
-                      {order.eta_minutes && (
-                        <p className="text-sm">
-                          ETA: {order.eta_minutes} minutes
-                        </p>
-                      )}
-
-                      <button
-                        onClick={() => navigate("/delivery-map")}
-                        className="px-6 py-2 mt-3 text-sm font-medium transition-colors bg-red-500 rounded-full hover:bg-red-600"
-                      >
-                        Track Order
-                      </button>
+                    {/* Display both backend and frontend totals for debugging */}
+                    <div className="mt-2 text-sm font-medium">
+                      Total (Backend): Rs.
+                      {parseFloat(order.total_price).toFixed(2)}
                     </div>
-                  ))
-                )}
-              </div>
+                  </div>
+                );
+              })}
 
               {/* Recent Orders */}
               <div className="flex-1 p-6 text-white bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-2xl">

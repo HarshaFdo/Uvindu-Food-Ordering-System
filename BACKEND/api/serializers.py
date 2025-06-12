@@ -52,10 +52,19 @@ class OrderItemCreateSerializer(serializers.ModelSerializer):
 # OrderSerializer for reading/displaying orders
 class OrderSerializer(serializers.ModelSerializer):
     items = OrderItemSerializer(many=True)
+    total_price = serializers.SerializerMethodField()
 
     class Meta:
         model = Order
         fields = '__all__'
+
+    def get_total_price(self, obj):
+        total = 0
+        for item in obj.items.all():
+            base_price = float(item.meal.full_price if item.portion == 'full' else item.meal.half_price)
+            additional_price = float(item.additional_meal.price) if item.additional_meal else 0
+            total += (base_price + additional_price) * item.quantity
+        return total
 
 # PlaceOrderSerializer for creating new orders
 class PlaceOrderSerializer(serializers.ModelSerializer):

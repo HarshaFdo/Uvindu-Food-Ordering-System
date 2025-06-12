@@ -63,19 +63,17 @@ class GoogleLoginAPIView(APIView):
 
 # Meal Views
 class MealViewSet(viewsets.ModelViewSet):
-    permission_classes = [AllowAny]
+    queryset = Meal.objects.all()
     serializer_class = MealSerializer
-
-    def get_queryset(self):
-        return Meal.objects.filter(availability=True)
+    # def get_queryset(self):
+    #     return Meal.objects.filter(availability=True)
     
-
 class AdditionalMealViewSet(viewsets.ModelViewSet):
-    permission_classes = [AllowAny]
+    queryset = AdditionalMeal.objects.all()
     serializer_class = AdditionalMealSerializer
 
-    def get_queryset(self):
-        return AdditionalMeal.objects.filter(availability=True)
+    # def get_queryset(self):
+    #     return AdditionalMeal.objects.filter(availability=True)
 
 class MealListAPIView(APIView):
     def get(self, request):

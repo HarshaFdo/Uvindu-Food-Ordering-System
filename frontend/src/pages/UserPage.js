@@ -209,14 +209,15 @@ function UserPage() {
                         </div>
                       </div>
                     ))}
+                    <a href="/my-orders">
                     <button className="w-full mt-2 bg-white/20 hover:bg-white/30 py-2 rounded-lg text-sm font-medium transition-all duration-200">
                       View All Orders
-                    </button>
+                    </button></a>
                   </div>
                 )}
               </div>
             </div>
-
+                
             {/* Enhanced Search */}
             <div className="relative max-w-2xl mx-auto">
               <input

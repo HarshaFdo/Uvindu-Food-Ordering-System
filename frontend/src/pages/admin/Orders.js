@@ -132,7 +132,7 @@ useEffect(() => { fetchOrders(); }, []);
                         <li>Room number {order.room_number}</li>
                       </TableCell>
                       
-                      <TableCell>Rs. {order.total?.toFixed(2)}</TableCell>
+                      <TableCell>Rs. {order.total_price?.toFixed(2)}</TableCell>
                       <TableCell>
                         <Select
                           value={order.status}

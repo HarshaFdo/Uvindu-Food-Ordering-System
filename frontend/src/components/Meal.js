@@ -2,9 +2,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-function Meal({ meal, onAddToCart, selectedPortion, onPortionChange }) {
+function Meal({ 
+  meal, 
+  onAddToCart, 
+  selectedPortion, 
+  selectedAdditionalMeal,
+  onPortionChange, 
+  onAdditionalMealChange 
+}) {
   const [additionalMeals, setAdditionalMeals] = useState([]);
-  const [selectedAdditional, setSelectedAdditional] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
@@ -26,7 +32,7 @@ function Meal({ meal, onAddToCart, selectedPortion, onPortionChange }) {
     const portion = selectedPortion || "full";
     const price = portion === "full" ? meal.full_price : meal.half_price;
     const additional = additionalMeals.find(
-      (am) => am.id === parseInt(selectedAdditional)
+      (am) => am.id === parseInt(selectedAdditionalMeal)
     );
 
     const cartItem = {
@@ -41,8 +47,12 @@ function Meal({ meal, onAddToCart, selectedPortion, onPortionChange }) {
     onAddToCart(cartItem);
   };
 
+  const handleAdditionalMealChange = (e) => {
+    const value = e.target.value;
+    onAdditionalMealChange(meal.id, value === "" ? null : value);
+  };
+
   return (
-    
     <div className="bg-[#7EC646] rounded-2xl p-4 text-white shadow-lg">
       {/* Meal Image */}
       <div className="relative mb-4 rounded-xl overflow-hidden">
@@ -113,8 +123,8 @@ function Meal({ meal, onAddToCart, selectedPortion, onPortionChange }) {
             Additional Meals
           </label>
           <select
-            onChange={(e) => setSelectedAdditional(e.target.value)}
-            defaultValue=""
+            onChange={handleAdditionalMealChange}
+            value={selectedAdditionalMeal || ""}
             className="w-full bg-white/10 border border-white/20 rounded-lg px-2 py-1 text-xs text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/30"
           >
             <option value="" className="text-gray-800">

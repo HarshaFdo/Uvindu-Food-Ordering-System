@@ -78,9 +78,24 @@ class PlaceOrderSerializer(serializers.ModelSerializer):
         items_data = validated_data.pop('items')
         user = self.context['request'].user
 
+        # Create the order without total_price first
         order = Order.objects.create(user=user, **validated_data)
 
+        # Add each order item
         for item_data in items_data:
             OrderItem.objects.create(order=order, **item_data)
 
+        # Calculate total price after items are added
+        total = 0
+        for item in order.items.all():
+            base_price = float(item.meal.full_price if item.portion == 'full' else item.meal.half_price)
+            additional_price = float(item.additional_meal.price) if item.additional_meal else 0
+            total += (base_price + additional_price) * item.quantity
+
+        order.total_price = total
+        order.save()
+
         return order
+
+
+    

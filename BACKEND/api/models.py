@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db import models
+from decimal import Decimal
 
 class Meal(models.Model):
     name = models.CharField(max_length=100)
@@ -47,10 +48,26 @@ class Order(models.Model):
     is_active = models.BooleanField(default=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='preparing')
     eta_minutes = models.IntegerField(default=30)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
 
 
     def __str__(self):
         return f"Order {self.id} - {self.user.username}"
+    
+    def calculate_total_price(self):
+        total = Decimal("0.00")
+        for item in self.items.all():
+            portion_price = (
+                item.meal.half_price if item.portion == "half" else item.meal.full_price
+            )
+
+            additional_price = item.additional_meal.price if item.additional_meal else Decimal("0.00")
+
+            total += (portion_price + additional_price) * item.quantity
+        return total
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
     
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)

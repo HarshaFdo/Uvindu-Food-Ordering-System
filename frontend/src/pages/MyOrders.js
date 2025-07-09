@@ -143,7 +143,7 @@ function MyOrdersPage() {
                                     </p>
                                   </div>
                                   <p className="font-bold text-green-600">
-                                    Rs. {((item.portion === "half" ? item.additional_meal.half_price : item.additional_meal.full_price) * item.quantity).toFixed(2)}
+                                    Rs.{item.price}
                                   </p>
                                 </div>
                               </div>

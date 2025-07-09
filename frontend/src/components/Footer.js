@@ -75,7 +75,7 @@ const Footer = () => {
                 <div className="space-y-3">
                   <div className="flex items-center space-x-3 text-gray-300">
                     <Phone size={16} className="text-orange-400" />
-                    <span className="text-sm">+94 XX XXX XXXX</span>
+                    <span className="text-sm">+94 76 310 7307</span>
                   </div>
                   <div className="flex items-center space-x-3 text-gray-300">
                     <Mail size={16} className="text-orange-400" />
@@ -83,7 +83,7 @@ const Footer = () => {
                   </div>
                   <div className="flex items-center space-x-3 text-gray-300">
                     <Clock size={16} className="text-orange-400" />
-                    <span className="text-sm">7 AM - 10 PM Daily</span>
+                    <span className="text-sm">7 AM - 8 PM Daily</span>
                   </div>
                 </div>
               </div>

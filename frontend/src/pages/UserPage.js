@@ -151,7 +151,7 @@ function UserPage() {
             <button className="font-bold text-orange-500 pb-1 border-b-2 border-orange-400">
               Home
             </button>
-            <button className="font-medium text-gray-600 hover:text-orange-500 transition-colors duration-200">
+            <button onClick={() => {const menuSection = document.getElementById("menu-section"); if (menuSection) {menuSection.scrollIntoView({ behavior: "smooth" });}}} className="font-medium text-gray-600 hover:text-orange-500 transition-colors duration-200">
               Menu
             </button>
             <button
@@ -206,6 +206,9 @@ function UserPage() {
                           <span className="text-sm bg-green-400/20 px-2 py-1 rounded-full">
                             {order.status}
                           </span>
+                          <p className="text-sm text-white/80">
+                              Rs. {order.total_price?.toFixed(2)}
+                            </p>
                         </div>
                         {order.eta_minutes && (
                           <p className="text-sm text-white/80">
@@ -259,7 +262,7 @@ function UserPage() {
                               Order #{order.id}
                             </span>
                             <p className="text-sm text-white/80">
-                              Rs. {order.total ?? "N/A"}
+                              Rs. {order.total_price?.toFixed(2)}
                             </p>
                           </div>
                           <span className="text-xs bg-green-400/20 px-2 py-1 rounded-full">
@@ -304,6 +307,7 @@ function UserPage() {
             </div>
 
             {/* Meals Section */}
+            <div id="menu-section">
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <h2 className="text-3xl font-bold text-gray-800">
@@ -359,7 +363,7 @@ function UserPage() {
                   ))
                 )}
               </div>
-            </div>
+            </div></div>
           </div>
 
           {/* Cart Sidebar */}

@@ -3,6 +3,7 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { MapContainer, Marker, TileLayer, useMap } from 'react-leaflet';
 import axios from 'axios';
+import Footer from '../components/Footer';
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -22,7 +23,7 @@ function Recenter({ position }) {
 }
 
 const TrackingMap = () => {
-  const [position, setPosition] = useState([6.71426, 80.78663]); // Default location
+  const [position, setPosition] = useState([6.71426, 80.78663]);
 
   useEffect(() => {
     const sendPositionToBackend = async (coords) => {
@@ -57,34 +58,55 @@ const TrackingMap = () => {
   }, []);
 
   return (
-    <div style={{ padding: '1rem', maxWidth: '100%', boxSizing: 'border-box' }}>
-      <h2 style={{ textAlign: 'center', fontSize: '1.4rem', marginBottom: '1rem' }}>
-        🚴 Live Delivery Location
-      </h2>
-      <div
-        style={{
-          width: '100%',
-          height: '60vh',
-          borderRadius: '12px',
-          overflow: 'hidden',
-          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-        }}
-      >
-        <MapContainer
-          center={position}
-          zoom={15}
-          scrollWheelZoom={true}
-          style={{ height: '100%', width: '100%' }}
-        >
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution="&copy; OpenStreetMap contributors"
-          />
-          <Marker position={position} />
-          <Recenter position={position} />
-        </MapContainer>
+    <div>
+    <div className="max-w-7xl mx-auto p-6 min-h-screen">
+      {/* Header Card */}
+      <div className="bg-white/80 backdrop-blur-lg rounded-2xl p-6 mb-6 shadow-xl border border-white/20 hover:shadow-2xl transition-all duration-300">
+        <div className="flex items-center justify-center gap-3">
+          <div className="w-12 h-12 bg-gradient-to-r from-orange-400 to-yellow-400 rounded-full flex items-center justify-center shadow-lg animate-pulse">
+            <span className="text-2xl">🚴</span>
+          </div>
+          <h2 className="text-3xl font-black bg-gradient-to-r from-orange-600 to-yellow-600 bg-clip-text text-transparent">
+            Live Delivery Tracking
+          </h2>
+        </div>
+        <p className="text-gray-600 text-center mt-2 font-medium">Your order is on its way!</p>
       </div>
-    </div>
+
+      {/* Map Card */}
+      <div className="bg-white/90 backdrop-blur-xl rounded-3xl p-4 shadow-2xl border border-white/30 hover:scale-[1.01] transition-all duration-500 group">
+        <div className="relative overflow-hidden rounded-2xl">
+          {/* Gradient overlay for modern feel */}
+          <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-black/10 to-transparent z-10 pointer-events-none"></div>
+          
+          <MapContainer
+            center={position}
+            zoom={15}
+            scrollWheelZoom={true}
+            className="h-[70vh] w-full rounded-2xl shadow-inner"
+          >
+            <TileLayer
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              attribution="&copy; OpenStreetMap contributors"
+            />
+            <Marker position={position} />
+            <Recenter position={position} />
+          </MapContainer>
+        </div>
+
+        {/* Status Footer */}
+        <div className="mt-4 flex items-center justify-between p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-100">
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse shadow-lg"></div>
+            <span className="text-green-700 font-semibold">Tracking Active</span>
+          </div>
+          <div className="text-sm text-gray-600 font-medium">
+            Updated in real-time
+          </div>
+        </div>
+      </div>
+      
+    </div><Footer /></div>
   );
 };
 
